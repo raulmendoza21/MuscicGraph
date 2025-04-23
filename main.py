@@ -37,7 +37,6 @@ def menu():
         print("3. Recolectar datos de Spotify")
         print("4. Resetear grafo en Neo4j")
         print("5. Construir grafo inicial")
-        print("6. Crear relaciones avanzadas (géneros, afinidad, colaboraciones)")
         print("7. Ejecutar TODO el flujo")
         print("0. Salir")
 
@@ -53,8 +52,6 @@ def menu():
             resetear_grafo()
         elif choice == "5":
             construir_grafo()
-        elif choice == "6":
-            create_advanced_relationships()
         elif choice == "7":
             conectar_mongodb()
             conectar_neo4j()
