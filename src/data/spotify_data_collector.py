@@ -1,4 +1,5 @@
 import os
+import time
 import datetime
 import spotipy
 from spotipy.util import prompt_for_user_token
@@ -10,7 +11,6 @@ load_dotenv()
 class MultiUserSpotifyDataCollector:
     def __init__(self):
         self.scope = 'user-library-read user-top-read playlist-read-private'
-
         client = MongoClient(os.getenv("MONGODB_URI"))
         self.db = client[os.getenv("MONGODB_DATABASE")]
 
@@ -48,7 +48,13 @@ class MultiUserSpotifyDataCollector:
             processed_tracks.append({
                 'spotify_id': track['id'],
                 'name': track['name'],
-                'artists': [{'spotify_id': a['id'], 'name': a['name']} for a in track['artists']],
+                'artists': [
+                    {
+                        'spotify_id': a['id'],
+                        'name': a['name'],
+                        'genres': sp.artist(a['id']).get('genres', [])
+                    } for a in track['artists']
+                ],
                 'album': {
                     'spotify_id': track['album']['id'],
                     'name': track['album']['name'],
@@ -59,8 +65,9 @@ class MultiUserSpotifyDataCollector:
                 'source': 'top_tracks',
                 'collected_at': now
             })
+            time.sleep(0.1)  # Para evitar rate limiting de Spotify
 
-        # 📂 PLAYLISTS + EXTRAER ARTISTAS
+        # 📂 PLAYLISTS
         playlists = sp.current_user_playlists(limit=20)
         processed_playlists = []
         playlist_track_entries = []
@@ -88,7 +95,13 @@ class MultiUserSpotifyDataCollector:
                     playlist_track_entries.append({
                         'spotify_id': track['id'],
                         'name': track['name'],
-                        'artists': [{'spotify_id': a['id'], 'name': a['name']} for a in track['artists']],
+                        'artists': [
+                            {
+                                'spotify_id': a['id'],
+                                'name': a['name'],
+                                'genres': sp.artist(a['id']).get('genres', [])
+                            } for a in track['artists']
+                        ],
                         'album': {
                             'spotify_id': track['album']['id'],
                             'name': track['album']['name'],
@@ -99,11 +112,11 @@ class MultiUserSpotifyDataCollector:
                         'source': 'playlist',
                         'collected_at': now
                     })
+                    time.sleep(0.1)
             except Exception as e:
                 print(f"⚠️ No se pudieron procesar los tracks de la playlist {playlist['name']}: {e}")
 
         all_tracks = processed_tracks + playlist_track_entries
-
         return user_data, all_tracks, processed_playlists
 
     def store_user_data(self, user_data, tracks, playlists):
@@ -139,3 +152,4 @@ class MultiUserSpotifyDataCollector:
                 self.store_user_data(user_data, tracks, playlists)
             except Exception as e:
                 print(f"❌ Error añadiendo usuario: {e}")
+

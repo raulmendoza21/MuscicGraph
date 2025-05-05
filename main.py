@@ -5,6 +5,10 @@ from src.db.neo4j_connection import get_neo4j_driver
 from src.graph.graph_builder import construir_grafo
 from src.graph.mongodb_to_neo4j import create_advanced_relationships
 from src.graph.reser_graph import resetear_grafo
+from src.recommenders.recommender import recomendar_artistas_para_usuario
+
+
+
 
 def conectar_mongodb():
     try:
@@ -38,6 +42,7 @@ def menu():
         print("4. Resetear grafo en Neo4j")
         print("5. Construir grafo inicial")
         print("7. Ejecutar TODO el flujo")
+        print("8. recomienda")
         print("0. Salir")
 
         choice = input("Selecciona una opción: ")
@@ -59,6 +64,15 @@ def menu():
             resetear_grafo()
             construir_grafo()
             create_advanced_relationships()
+        elif choice == "8":
+            user_id = input("🎧 Ingresa tu Spotify ID (por ejemplo: raul_mendoza__): ").strip()
+            genero = input("🎼 ¿Deseas filtrar por género? (deja vacío para recomendación general): ").strip()
+    
+            if genero:
+                recomendar_artistas_para_usuario(user_id, genero=genero)
+            else:
+                recomendar_artistas_para_usuario(user_id)
+
         elif choice == "0":
             print("👋 Saliendo.")
             break
