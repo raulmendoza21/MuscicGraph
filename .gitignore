@@ -1,7 +1,9 @@
 .env
 __pycache__/
 *.pyc
-.vscode/
-venv/
-.idea/
+*.pyo
 *.db
+.vscode/
+.idea/
+venv/
+data/
