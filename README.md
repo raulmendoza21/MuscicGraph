@@ -118,4 +118,4 @@ Desde el menú podrás:
 
 ---
 
-> Proyecto para la asignatura de **Bases de Datos No Relacionales (BDNR)** - Grado en Ciencia e Ingeniería de Datos
+> Proyecto para la asignatura de **Bases de Datos No Relacionales (BDNR)** - Grado en Ciencia e Ingeniería de Datos - ULPGC

@@ -1,15 +1,27 @@
-version: '3.1'
-
 services:
   mongodb:
     image: mongo:latest
-    container_name: musicgraph
+    container_name: musicgraph-mongo
     ports:
       - "27017:27017"
     volumes:
-      - ./data:/data/db
+      - ./data/mongo:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: password
       MONGO_INITDB_DATABASE: musicgraph
+    restart: always
+
+  neo4j:
+    image: neo4j:5
+    container_name: musicgraph-neo4j
+    ports:
+      - "7474:7474"   # Interfaz web
+      - "7687:7687"   # Bolt (para conectarse desde Python)
+    volumes:
+      - ./data/neo4j/data:/data
+      - ./data/neo4j/logs:/logs
+    environment:
+      NEO4J_AUTH: neo4j/password
+      NEO4J_ACCEPT_LICENSE_AGREEMENT: "yes"
     restart: always
