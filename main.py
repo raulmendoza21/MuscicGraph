@@ -1,14 +1,39 @@
 from src.config.settings import load_env
-from src.data.spotify_data_collector import MultiUserSpotifyDataCollector
+from src.services.spotify_data_collector import MultiUserSpotifyDataCollector
 from src.db.mongodb_connection import get_mongo_database
 from src.db.neo4j_connection import get_neo4j_driver
-from src.graph.graph_builder import construir_grafo
-from src.graph.mongodb_to_neo4j import create_advanced_relationships
-from src.graph.reser_graph import resetear_grafo
-from src.recommenders.recommender import recomendar_artistas_para_usuario
+from src.graph.graph_builder_full import construir_grafo_completo, resetear_grafo
+from src.services.recommendation_service import recomendar_artistas_para_usuario
 
+from collections import Counter
 
+def mostrar_resumen_musical(top_n=10):
+    db = get_mongo_database()
+    artistas_counter = Counter()
+    canciones_counter = Counter()
 
+    for track in db["top_tracks"].find():
+        canciones_counter[track["name"]] += 1
+        for artista in track.get("artists", []):
+            artistas_counter[artista["name"]] += 1
+
+    print(f"\n🎧 Top {top_n} artistas más escuchados:")
+    for nombre, count in artistas_counter.most_common(top_n):
+        print(f"  - {nombre} ({count} apariciones)")
+
+    print(f"\n🎵 Top {top_n} canciones más frecuentes:")
+    for nombre, count in canciones_counter.most_common(top_n):
+        print(f"  - {nombre} ({count} veces)")
+
+def mostrar_usuarios():
+    db = get_mongo_database()
+    usuarios = list(db["users"].find({}, {"display_name": 1, "spotify_id": 1}))
+    if not usuarios:
+        print("⚠️ No hay usuarios en la base de datos.")
+        return
+    print(f"\n👥 Usuarios registrados ({len(usuarios)}):")
+    for u in usuarios:
+        print(f"- {u.get('display_name', 'Desconocido')} ({u['spotify_id']})")
 
 def conectar_mongodb():
     try:
@@ -36,14 +61,20 @@ def recolectar_datos():
 def menu():
     while True:
         print("\n🎛️  Menu de opciones:")
+        print("📦 Conexiones:")
         print("1. Conectar a MongoDB")
         print("2. Conectar a Neo4j")
+        print("\n🎧 Datos:")
         print("3. Recolectar datos de Spotify")
+        print("6. Ver resumen musical global (MongoDB)")
+        print("9. Ver usuarios registrados (MongoDB)")
+        print("\n🧠 Grafo:")
         print("4. Resetear grafo en Neo4j")
-        print("5. Construir grafo inicial")
+        print("5. Construir grafo completo")
+        print("\n🚀 Automatización:")
         print("7. Ejecutar TODO el flujo")
-        print("8. recomienda")
-        print("0. Salir")
+        print("8. Recomendar artistas")
+        print("\n0. Salir")
 
         choice = input("Selecciona una opción: ")
 
@@ -56,23 +87,24 @@ def menu():
         elif choice == "4":
             resetear_grafo()
         elif choice == "5":
-            construir_grafo()
+            construir_grafo_completo()
+        elif choice == "6":
+            mostrar_resumen_musical()
         elif choice == "7":
             conectar_mongodb()
             conectar_neo4j()
             recolectar_datos()
             resetear_grafo()
-            construir_grafo()
-            create_advanced_relationships()
+            construir_grafo_completo()
         elif choice == "8":
-            user_id = input("🎧 Ingresa tu Spotify ID (por ejemplo: raul_mendoza__): ").strip()
-            genero = input("🎼 ¿Deseas filtrar por género? (deja vacío para recomendación general): ").strip()
-    
-            if genero:
-                recomendar_artistas_para_usuario(user_id, genero=genero)
-            else:
-                recomendar_artistas_para_usuario(user_id)
-
+            user_id = input("🎧 Ingresa tu Spotify ID: ").strip()
+            genero = input("🎼 ¿Filtrar por género? (deja vacío para todos): ").strip()
+            recomendaciones = recomendar_artistas_para_usuario(user_id, genero or None)
+            print("\n🎯 Recomendaciones:")
+            for r in recomendaciones:
+                print(f"- {r['nombre']} ({', '.join(r['generos'])}) - Popularidad: {r['popularidad']}")
+        elif choice == "9":
+            mostrar_usuarios()
         elif choice == "0":
             print("👋 Saliendo.")
             break

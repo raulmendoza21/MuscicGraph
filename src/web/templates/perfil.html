@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MusicGraph Recommender - Tu perfil musical y recomendaciones personalizadas">
+    <title>MusicGraph | Tu Perfil Musical</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Color scheme */
+            --primary: #8c52ff;
+            --primary-hover: #7039e6;
+            --primary-light: rgba(140, 82, 255, 0.1);
+            --secondary: #ff5287;
+            --gradient-bg: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --card-hover-bg: rgba(255, 255, 255, 0.12);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-tertiary: rgba(255, 255, 255, 0.5);
+            --nav-bg: rgba(15, 15, 30, 0.8);
+            
+            /* Profile types colors */
+            --profile-especialista: #ff5287;
+            --profile-explorador: #4ade80;
+            --profile-mainstream: #60a5fa;
+            --profile-variado: #facc15;
+            
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.25);
+            
+            /* Animations */
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+            
+            /* Blur effects */
+            --blur-effect: blur(20px);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gradient-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-attachment: fixed;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: var(--blur-effect);
+            -webkit-backdrop-filter: var(--blur-effect);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+        }
+        
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .navbar-logo-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+            filter: drop-shadow(0 0 8px rgba(140, 82, 255, 0.5));
+        }
+        
+        .navbar-logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .navbar-btn {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(140, 82, 255, 0.3);
+            text-decoration: none;
+        }
+        
+        .navbar-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(140, 82, 255, 0.4);
+        }
+        
+        /* Header */
+        .profile-header {
+            padding: 140px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-bg {
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 140%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(140, 82, 255, 0.15) 0%, rgba(140, 82, 255, 0) 70%);
+            z-index: -1;
+            animation: pulse 15s infinite alternate;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .profile-name {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        
+        .profile-type {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+        
+        .profile-type-especialista {
+            background-color: rgba(255, 82, 135, 0.2);
+            color: var(--profile-especialista);
+        }
+        
+        .profile-type-explorador {
+            background-color: rgba(74, 222, 128, 0.2);
+            color: var(--profile-explorador);
+        }
+        
+        .profile-type-mainstream {
+            background-color: rgba(96, 165, 250, 0.2);
+            color: var(--profile-mainstream);
+        }
+        
+        .profile-type-variado {
+            background-color: rgba(250, 204, 21, 0.2);
+            color: var(--profile-variado);
+        }
+        
+        .profile-type-desconocido {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+        
+        .profile-bio {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            color: var(--text-secondary);
+        }
+        
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            margin-bottom: 48px;
+            backdrop-filter: var(--blur-effect);
+            -webkit-backdrop-filter: var(--blur-effect);
+            box-shadow: var(--shadow-md);
+            transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+            animation: fadeIn 1s var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(140, 82, 255, 0.1), transparent 70%);
+            z-index: -1;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .card-header {
+            margin-bottom: 32px;
+        }
+        
+        .card-title {
+            font-size: 1.75rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .card-title-icon {
+            color: var(--primary);
+        }
+        
+        .card-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        
+        /* Genres */
+        .genres-container {
+            margin-top: 32px;
+        }
+        
+        .genre-item {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            transition: all var(--transition-normal);
+            border: 1px solid var(--card-border);
+        }
+        
+        .genre-item:hover {
+            background: var(--card-hover-bg);
+            transform: translateX(8px);
+        }
+        
+        .genre-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .genre-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .genre-percentage {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px;
+            border-radius: 12px;
+        }
+        
+        .genre-bar-container {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .genre-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 3px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: width 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        
+        /* Recommendations */
+        .recommendation-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+        
+        .recommendation-item {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all var(--transition-normal);
+            border: 1px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .recommendation-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity var(--transition-normal);
+        }
+        
+        .recommendation-item:hover {
+            transform: translateY(-8px);
+            background: var(--card-hover-bg);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .recommendation-item:hover::before {
+            opacity: 1;
+        }
+        
+        .recommendation-name {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+        }
+        
+        .recommendation-meta {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .recommendation-meta svg {
+            color: var(--primary);
+        }
+        
+        .recommendation-popularity {
+            margin-top: 12px;
+            width: 100%;
+        }
+        
+        .popularity-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            margin-bottom: 6px;
+        }
+        
+        .popularity-bar-container {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+        
+        .popularity-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 3px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: width 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        
+        /* Forms */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        label {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+        
+        .form-helper {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            margin-top: 4px;
+        }
+        
+        input[type="text"] {
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all var(--transition-normal);
+            font-family: inherit;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(140, 82, 255, 0.25);
+        }
+        
+        input[type="text"]::placeholder {
+            color: var(--text-tertiary);
+        }
+        
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(140, 82, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s;
+        }
+        
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(140, 82, 255, 0.4);
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Alert */
+        .alert {
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .alert-info {
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            color: #60a5fa;
+        }
+        
+        .alert-warning {
+            background: rgba(250, 204, 21, 0.1);
+            border: 1px solid rgba(250, 204, 21, 0.3);
+            color: #facc15;
+        }
+        
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-tertiary);
+            font-size: 0.9rem;
+            margin-top: 40px;
+            background: rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at bottom center, rgba(140, 82, 255, 0.05), transparent 70%);
+            z-index: -1;
+        }
+        
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar-container {
+                padding: 12px 16px;
+            }
+            
+            .profile-header {
+                padding: 120px 0 40px;
+            }
+            
+            .profile-name {
+                font-size: 2rem;
+            }
+            
+            .card {
+                padding: 30px;
+                margin-bottom: 36px;
+            }
+            
+            .card-title {
+                font-size: 1.5rem;
+            }
+            
+            .recommendation-list {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+            
+            .navbar-logo-text {
+                font-size: 1.2rem;
+            }
+            
+            .profile-avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+            
+            .profile-name {
+                font-size: 1.75rem;
+            }
+            
+            .card {
+                padding: 24px;
+                border-radius: 20px;
+            }
+            
+            .btn {
+                padding: 14px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" role="navigation">
+        <div class="navbar-container">
+            <a href="/" class="navbar-logo" aria-label="MusicGraph Home">
+                <span class="navbar-logo-icon" aria-hidden="true">🎧</span>
+                <span class="navbar-logo-text">MusicGraph</span>
+            </a>
+            <div class="navbar-actions">
+                <a href="/" class="navbar-btn" aria-label="Volver a la página principal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <span>Inicio</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <header class="profile-header">
+            <div class="header-bg" aria-hidden="true"></div>
+            
+            <div class="profile-avatar" aria-hidden="true">
+                🎵
+            </div>
+            
+            <h1 class="profile-name">Tu Perfil Musical</h1>
+            
+            {% if perfil_info.perfil %}
+            <div class="profile-type profile-type-{{ perfil_info.perfil }}">
+                {{ perfil_info.perfil|upper }}
+            </div>
+            
+            <p class="profile-bio">
+                {% if perfil_info.perfil == 'especialista' %}
+                Eres un especialista musical. Te gusta profundizar en pocos géneros y conocerlos a fondo.
+                {% elif perfil_info.perfil == 'explorador' %}
+                Eres un explorador musical. Te encanta descubrir nuevos géneros y artistas constantemente.
+                {% elif perfil_info.perfil == 'mainstream' %}
+                Tienes un gusto mainstream. Disfrutas de la música popular y las tendencias actuales.
+                {% elif perfil_info.perfil == 'variado' %}
+                Tienes un gusto musical variado. Disfrutas de diferentes géneros según tu estado de ánimo.
+                {% else %}
+                Aún no tenemos suficiente información para determinar tu perfil musical.
+                {% endif %}
+            </p>
+            {% endif %}
+        </header>
+        
+        <main>
+            {% if perfil_info.mensaje %}
+            <div class="alert alert-info">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span>{{ perfil_info.mensaje }}</span>
+            </div>
+            {% endif %}
+            
+            <!-- Análisis de Géneros -->
+            {% if perfil_info.generos_principales and perfil_info.generos_principales|length > 0 %}
+            <section class="card" aria-labelledby="genres-title">
+                <div class="card-header">
+                    <h2 class="card-title" id="genres-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-title-icon" aria-hidden="true">
+                            <path d="M2 9a7 7 0 1 0 14 0a7 7 0 1 0-14 0"></path>
+                            <path d="M16 11a7 7 0 1 0 14 0a7 7 0 1 0-14 0"></path>
+                        </svg>
+                        Tus Géneros Principales
+                    </h2>
+                    <p class="card-description">Análisis de tus preferencias musicales basado en tu historial de escucha</p>
+                </div>
+                
+                <div class="genres-container">
+                    {% for genero in perfil_info.generos_principales %}
+                    <div class="genre-item">
+                        <div class="genre-header">
+                            <div class="genre-name">{{ genero.genero }}</div>
+                            <div class="genre-percentage">{{ genero.porcentaje }}%</div>
+                        </div>
+                        <div class="genre-bar-container" role="progressbar" aria-valuenow="{{ genero.porcentaje }}" aria-valuemin="0" aria-valuemax="100">
+                            <div class="genre-bar" style="width: {{ genero.porcentaje }}%"></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% else %}
+            <!-- Formulario para analizar perfil -->
+            <section class="card" aria-labelledby="analyze-title">
+                <div class="card-header">
+                    <h2 class="card-title" id="analyze-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-title-icon" aria-hidden="true">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.3-4.3"></path>
+                        </svg>
+                        Analizar Tu Perfil
+                    </h2>
+                    <p class="card-description">Ingresa tu ID de Spotify para analizar tus preferencias musicales</p>
+                </div>
+                
+                <form method="POST" action="/perfil" aria-label="Formulario de análisis de perfil">
+                    <div class="form-group">
+                        <label for="user_id">Tu Spotify ID:</label>
+                        <input 
+                            type="text" 
+                            id="user_id" 
+                            name="user_id" 
+                            placeholder="Ej: spotify:user:tu_id o simplemente tu_id" 
+                            required
+                            aria-describedby="id-helper"
+                        >
+                        <p id="id-helper" class="form-helper">Encuentra tu ID en la configuración de tu cuenta de Spotify</p>
+                    </div>
+                    
+                    <button type="submit" class="btn">
+                        <span>Analizar mi perfil</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M5 12h14"></path>
+                            <path d="m12 5 7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </form>
+            </section>
+            {% endif %}
+        </main>
+    </div>
+    
+    <footer>
+        <div class="footer-bg" aria-hidden="true"></div>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span aria-hidden="true">🎧</span> MusicGraph
+            </div>
+            <p>© 2025 MusicGraph Recommender | Descubre nueva música con el poder de los grafos y la similitud de usuarios</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Animate genre bars on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const bars = document.querySelectorAll('.genre-bar');
+            bars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 300);
+            });
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(15, 15, 30, 0.95)';
+                navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
+            } else {
+                navbar.style.background = 'var(--nav-bg)';
+                navbar.style.boxShadow = 'var(--shadow-sm)';
+            }
+        });
+    </script>
+</body>
+</html>
