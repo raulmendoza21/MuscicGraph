@@ -44,6 +44,7 @@ def callback():
         collector = MultiUserSpotifyDataCollector()
         user_data, tracks, playlists = collector.collect_user_data(sp)
         collector.store_user_data(user_data, tracks, playlists)
+        session["user_id"] = user_data["spotify_id"]
     except Exception as e:
         print(f"❌ Error al recolectar datos: {e}")
         return redirect("/")

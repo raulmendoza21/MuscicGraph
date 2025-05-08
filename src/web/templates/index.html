@@ -3,18 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MusicGraph Recommender - Descubre nueva música basada en tus gustos y los de usuarios similares">
-    <title>MusicGraph Recommender | Descubre nueva música</title>
+    <meta name="description" content="MusicGraph - Descubre nueva música basada en algoritmos de grafos y análisis de redes sociales">
+    <meta name="keywords" content="música, recomendaciones, spotify, grafos, descubrimiento musical">
+    <meta name="author" content="MusicGraph Team">
+    <title>MusicGraph | Descubrimiento musical inteligente</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Color scheme */
+            /* Color scheme - Paleta profesional */
             --primary: #8c52ff;
             --primary-hover: #7039e6;
             --primary-light: rgba(140, 82, 255, 0.1);
             --secondary: #ff5287;
+            --secondary-hover: #e63e73;
+            --tertiary: #3ecfff;
+            --tertiary-hover: #2ab8e6;
+            --quaternary: #ffb84d;
+            --quaternary-hover: #e69c29;
             --gradient-bg: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
             --card-bg: rgba(255, 255, 255, 0.07);
             --card-border: rgba(255, 255, 255, 0.1);
@@ -24,11 +31,15 @@
             --text-tertiary: rgba(255, 255, 255, 0.5);
             --nav-bg: rgba(15, 15, 30, 0.8);
             --accent-blue: #60a5fa;
+            --accent-green: #4ade80;
+            --accent-yellow: #facc15;
+            --accent-red: #f87171;
             
-            /* Shadows */
+            /* Shadows - Más refinados */
             --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
             --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.2);
             --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.25);
+            --shadow-glow: 0 0 15px rgba(140, 82, 255, 0.3);
             
             /* Animations */
             --transition-fast: 0.2s ease;
@@ -73,18 +84,19 @@
             padding: 0 24px;
         }
         
-        /* Typography */
+        /* Typography - Mejorada */
         h1, h2, h3, h4, h5, h6 {
             font-weight: 700;
             line-height: 1.2;
             margin-bottom: 0.5em;
+            letter-spacing: -0.02em;
         }
         
         p {
             margin-bottom: 1rem;
         }
         
-        /* Navbar */
+        /* Navbar - Refinada */
         .navbar {
             position: fixed;
             top: 0;
@@ -200,9 +212,9 @@
             color: var(--primary);
         }
         
-        /* Header */
+        /* Header - Mejorado */
         header {
-            padding: 140px 0 60px;
+            padding: 140px 0 80px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -247,10 +259,17 @@
         }
         
         .particle:nth-child(3n) {
-            background: white;
+            background: var(--tertiary);
             width: 3px;
             height: 3px;
             animation-duration: 30s;
+        }
+        
+        .particle:nth-child(4n) {
+            background: var(--quaternary);
+            width: 5px;
+            height: 5px;
+            animation-duration: 22s;
         }
         
         .logo-container {
@@ -290,12 +309,13 @@
         .tagline {
             font-size: 1.25rem;
             color: var(--text-secondary);
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto 40px;
             animation: fadeInUp 1s var(--transition-normal);
+            line-height: 1.5;
         }
         
-        /* Cards */
+        /* Cards - Refinadas */
         .card {
             background: var(--card-bg);
             border-radius: 24px;
@@ -346,9 +366,10 @@
         .card-description {
             color: var(--text-secondary);
             font-size: 1rem;
+            line-height: 1.6;
         }
         
-        /* Forms */
+        /* Forms - Mejorados */
         form {
             display: flex;
             flex-direction: column;
@@ -475,14 +496,49 @@
         }
 
         .btn-accent-blue {
-            background: var(--accent-blue);
+            background: var(--tertiary);
         }
 
         .btn-accent-blue:hover {
-            background: rgba(96, 165, 250, 0.8);
+            background: var(--tertiary-hover);
         }
         
-        /* Results */
+        .discovery-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        
+        .discovery-btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: white;
+            border: none;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .discovery-btn-primary {
+            background: var(--quaternary);
+        }
+        
+        .discovery-btn-primary:hover {
+            background: var(--quaternary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Results - Mejorados */
         .results {
             animation: fadeIn 0.8s var(--transition-normal);
         }
@@ -572,15 +628,46 @@
         
         .popularity-bar {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
             border-radius: 3px;
             position: absolute;
             top: 0;
             left: 0;
             transition: width 1.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
+
+        .recommendation-origin {
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            margin-top: 6px;
+            padding: 6px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .recommendation-origin strong {
+            color: var(--text-secondary);
+        }
+
+        .recommendation-genres {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .genre-tag {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: rgba(140, 82, 255, 0.15);
+            color: var(--text-secondary);
+        }
         
-        /* How it works */
+        /* How it works - Mejorado */
         .how-it-works {
             margin-bottom: 60px;
         }
@@ -616,6 +703,7 @@
             color: var(--text-secondary);
             max-width: 700px;
             margin: 0 auto;
+            line-height: 1.6;
         }
         
         .steps {
@@ -695,10 +783,99 @@
             line-height: 1.6;
         }
         
-        /* Footer */
+        /* Features section */
+        .features-section {
+            margin-bottom: 60px;
+        }
+        
+        .features-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .features-title {
+            font-size: 2rem;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+        }
+        
+        .features-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+        
+        .features-description {
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+        
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--card-border);
+            transition: all var(--transition-normal);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .feature-icon svg {
+            width: 24px;
+            height: 24px;
+            color: var(--primary);
+        }
+        
+        .feature-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .feature-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        /* Footer - Mejorado */
         footer {
             text-align: center;
-            padding: 40px 0;
+            padding: 60px 0;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             color: var(--text-tertiary);
             font-size: 0.9rem;
@@ -726,13 +903,37 @@
         .footer-logo {
             font-weight: 700;
             color: var(--text-secondary);
-            margin-bottom: 8px;
+            margin-bottom: 16px;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            font-size: 1.2rem;
         }
         
-        /* Loading */
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color var(--transition-normal);
+        }
+        
+        .footer-link:hover {
+            color: var(--text-primary);
+        }
+        
+        .footer-copyright {
+            margin-top: 20px;
+            font-size: 0.8rem;
+        }
+        
+        /* Loading - Mejorado */
         .loading {
             display: none;
             text-align: center;
@@ -798,7 +999,7 @@
         
         .loading-progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(90deg, var(--primary), var(--secondary) 100%);
             width: 0;
             animation: progress 2s ease-in-out infinite;
         }
@@ -908,6 +1109,14 @@
             .how-it-works-title {
                 font-size: 1.75rem;
             }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .discovery-buttons {
+                flex-direction: column;
+            }
         }
         
         @media (max-width: 480px) {
@@ -953,7 +1162,7 @@
     <!-- Navbar -->
     <nav class="navbar" role="navigation">
         <div class="navbar-container">
-            <a href="#" class="navbar-logo" aria-label="MusicGraph Home">
+            <a href="/" class="navbar-logo" aria-label="MusicGraph Home">
                 <span class="navbar-logo-icon" aria-hidden="true">🎧</span>
                 <span class="navbar-logo-text">MusicGraph</span>
             </a>
@@ -1023,7 +1232,7 @@
                 <span class="logo-icon" aria-hidden="true">🎧</span>
                 <h1 class="logo-text">MusicGraph</h1>
             </div>
-            <p class="tagline">Descubre nueva música basada en tus gustos y los de usuarios similares</p>
+            <p class="tagline">Descubre nueva música basada en algoritmos de grafos y análisis de redes sociales. Una experiencia musical personalizada que evoluciona contigo.</p>
         </header>
         
         <main>
@@ -1037,7 +1246,7 @@
                         </svg>
                         Recomendaciones Personalizadas
                     </h2>
-                    <p class="card-description">Ingresa tu ID de Spotify y opcionalmente filtra por género para descubrir nueva música</p>
+                    <p class="card-description">Ingresa tu ID de Spotify y opcionalmente filtra por género para descubrir nueva música basada en usuarios con gustos similares a los tuyos.</p>
                 </div>
                 
                 <form method="POST" id="recommendationForm" aria-label="Formulario de recomendaciones">
@@ -1076,7 +1285,7 @@
                 </form>
             </section>
 
-            <!-- Modo Explorador (Separado) -->
+            <!-- Modos de Descubrimiento -->
             <section class="card" aria-labelledby="explorer-title">
                 <div class="card-header">
                     <h2 class="card-title" id="explorer-title">
@@ -1086,12 +1295,13 @@
                             <path d="M12 12 7 4.9"></path>
                             <path d="m12 12 5-1.5"></path>
                         </svg>
-                        Modo Explorador
+                        Modos de Descubrimiento
                     </h2>
-                    <p class="card-description">Descubre música completamente nueva y diferente a lo que normalmente escuchas</p>
+                    <p class="card-description">Explora diferentes formas de descubrir música nueva y expandir tus horizontes musicales.</p>
                 </div>
                 
-                <form method="POST" action="/explorador" aria-label="Formulario de modo explorador">
+                <!-- Modo Explorador -->
+                <form method="POST" id="explorerForm" action="/explorador" aria-label="Formulario de modo explorador">
                     <div class="form-group">
                         <label for="explorer_user_id">Tu Spotify ID:</label>
                         <input 
@@ -1128,66 +1338,165 @@
                         </svg>
                     </button>
                 </form>
+
+                <div class="discovery-buttons">
+                    <form id="discoveryForm" action="/descubrimiento" method="post">
+                        <input type="hidden" name="limite" value="10">
+                        <button type="submit" class="discovery-btn discovery-btn-primary">
+                            <span>🔍 Modo Descubrimiento</span>
+                        </button>
+                    </form>
+                </div>
             </section>
             
             <!-- Resultados de recomendaciones -->
-            {% if recomendaciones %}
-            <section class="card results" aria-labelledby="recommendations-title">
-                <div class="card-header">
-                    <h2 class="card-title" id="recommendations-title">
+            <div id="results-container">
+                {% if recomendaciones %}
+                <section class="card results" aria-labelledby="recommendations-title">
+                    <div class="card-header">
+                        <h2 class="card-title" id="recommendations-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-title-icon" aria-hidden="true">
+                                <path d="M12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"></path>
+                                <path d="M12 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"></path>
+                                <path d="M20 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"></path>
+                                <path d="M4 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"></path>
+                                <path d="M16 12h4"></path>
+                                <path d="M4 12h4"></path>
+                                <path d="M12 6v4"></path>
+                                <path d="M12 14v4"></path>
+                            </svg>
+                            Tus Recomendaciones Personalizadas
+                        </h2>
+                        <p class="card-description">Basadas en tus gustos musicales y usuarios con preferencias similares</p>
+                    </div>
+                    
+                    <ul class="recommendation-list">
+                        {% for reco in recomendaciones %}
+                        <li class="recommendation-item">
+                            <div class="recommendation-name">{{ reco.nombre }}</div>
+
+                            <div class="recommendation-meta">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                                <span>{{ reco.coincidencias }} usuarios similares</span>
+                            </div>
+
+                            {% if reco.generos and reco.generos|length > 0 %}
+                            <div class="recommendation-genres">
+                                {% for genero in reco.generos %}
+                                <span class="genre-tag">{{ genero }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            <div class="recommendation-popularity">
+                                <div class="popularity-label">
+                                    <span>Coincidencia</span>
+                                    <span>
+                                        {% if recomendaciones[0].coincidencias > 0 %}
+                                            {{ (reco.coincidencias / recomendaciones[0].coincidencias) * 100 | int }}%
+                                        {% else %}
+                                            0%
+                                        {% endif %}
+                                    </span>
+                                </div>
+
+                                {% set porcentaje = 0 %}
+                                {% if recomendaciones[0].coincidencias > 0 %}
+                                    {% set porcentaje = (reco.coincidencias / recomendaciones[0].coincidencias) * 100 %}
+                                {% endif %}
+
+                                <div class="popularity-bar-container" role="progressbar" aria-valuenow="{{ porcentaje | int }}" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="popularity-bar" style="width: {{ porcentaje }}%"></div>
+                                </div>
+                            </div>
+
+                            {% if reco.origen %}
+                            <div class="recommendation-origin">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+                                </svg>
+                                <span>Origen: <strong>{{ reco.origen }}</strong></span>
+                            </div>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+                {% endif %}
+            </div>
+            
+            <!-- Características de MusicGraph -->
+            <section class="features-section" aria-labelledby="features-title">
+                <div class="features-header">
+                    <h2 class="features-title" id="features-title">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-title-icon" aria-hidden="true">
-                            <path d="M12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"></path>
-                            <path d="M12 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"></path>
-                            <path d="M20 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"></path>
-                            <path d="M4 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"></path>
-                            <path d="M16 12h4"></path>
-                            <path d="M4 12h4"></path>
-                            <path d="M12 6v4"></path>
-                            <path d="M12 14v4"></path>
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
                         </svg>
-                        Tus Recomendaciones Personalizadas
+                        Características de MusicGraph
                     </h2>
-                    <p class="card-description">Basadas en tus gustos musicales y usuarios con preferencias similares</p>
+                    <p class="features-description">Descubre todas las funcionalidades que ofrece nuestra plataforma para mejorar tu experiencia musical</p>
                 </div>
                 
-                <ul class="recommendation-list">
-                    {% for reco in recomendaciones %}
-                    <li class="recommendation-item">
-                        <div class="recommendation-name">{{ reco.nombre }}</div>
-                        <div class="recommendation-meta">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="9" cy="7" r="4"></circle>
-                                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="18" cy="5" r="3"></circle>
+                                <circle cx="6" cy="12" r="3"></circle>
+                                <circle cx="18" cy="19" r="3"></circle>
+                                <line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line>
+                                <line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line>
                             </svg>
-                            <span>{{ reco.coincidencias }} usuarios similares</span>
                         </div>
-                        <div class="recommendation-popularity">
-                            <div class="popularity-label">
-                                <span>Coincidencia</span>
-                                <span>
-                                    {% if recomendaciones[0].coincidencias > 0 %}
-                                      {{ (reco.coincidencias / recomendaciones[0].coincidencias) * 100 | int }}%
-                                    {% else %}
-                                      0%
-                                    {% endif %}
-                                </span>
-                            </div>
-                            {% set porcentaje = 0 %}
-                            {% if recomendaciones[0].coincidencias > 0 %}
-                              {% set porcentaje = (reco.coincidencias / recomendaciones[0].coincidencias) * 100 %}
-                            {% endif %}
-                            
-                            <div class="popularity-bar-container" role="progressbar" aria-valuenow="{{ porcentaje | int }}" aria-valuemin="0" aria-valuemax="100">
-                              <div class="popularity-bar" style="width: {{ porcentaje }}%"></div>
-                            </div>
+                        <h3 class="feature-title">Algoritmo de Grafos</h3>
+                        <p class="feature-description">Utilizamos teoría de grafos para conectar usuarios y artistas, encontrando relaciones que los algoritmos tradicionales no detectan.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"></path>
+                                <path d="M8.5 8.5v.01"></path>
+                                <path d="M16 15.5v.01"></path>
+                                <path d="M12 12v.01"></path>
+                                <path d="M11 17v.01"></path>
+                                <path d="M7 14v.01"></path>
+                            </svg>
                         </div>
-                    </li>
-                    {% endfor %}
-                </ul>
+                        <h3 class="feature-title">Modo Explorador</h3>
+                        <p class="feature-description">Sal de tu burbuja musical con recomendaciones que te llevan fuera de tu zona de confort, ajustando el nivel de exploración.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2 9a7 7 0 1 0 14 0a7 7 0 1 0-14 0"></path>
+                                <path d="M16 11a7 7 0 1 0 14 0a7 7 0 1 0-14 0"></path>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Análisis de Géneros</h3>
+                        <p class="feature-description">Analizamos tus preferencias musicales para identificar tus géneros favoritos y ofrecerte un perfil musical personalizado.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20z"></path>
+                                <path d="M8 12h8"></path>
+                                <path d="M12 8v8"></path>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Modo Descubrimiento</h3>
+                        <p class="feature-description">Encuentra música completamente nueva basada en tendencias emergentes y artistas en crecimiento.</p>
+                    </div>
+                </div>
             </section>
-            {% endif %}
             
             <section class="how-it-works" aria-labelledby="how-it-works-title">
                 <div class="how-it-works-header">
@@ -1243,6 +1552,22 @@
                         <h3 class="step-title">Recomendaciones</h3>
                         <p class="step-description">Descubrimos música que te podría gustar basada en lo que escuchan usuarios similares y tus preferencias personales</p>
                     </div>
+                    
+                    <div class="step">
+                        <div class="step-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"></path>
+                                <path d="M8.5 8.5v.01"></path>
+                                <path d="M16 15.5v.01"></path>
+                                <path d="M12 12v.01"></path>
+                                <path d="M11 17v.01"></path>
+                                <path d="M7 14v.01"></path>
+                            </svg>
+                        </div>
+                        <span class="step-number" aria-hidden="true">4</span>
+                        <h3 class="step-title">Exploración</h3>
+                        <p class="step-description">Te ayudamos a descubrir nuevos géneros y artistas fuera de tu zona de confort para ampliar tus horizontes musicales</p>
+                    </div>
                 </div>
             </section>
         </main>
@@ -1254,7 +1579,13 @@
             <div class="footer-logo">
                 <span aria-hidden="true">🎧</span> MusicGraph
             </div>
-            <p>© 2025 MusicGraph Recommender | Descubre nueva música con el poder de los grafos y la similitud de usuarios</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">Acerca de</a>
+                <a href="#" class="footer-link">Términos de uso</a>
+                <a href="#" class="footer-link">Privacidad</a>
+                <a href="#" class="footer-link">Contacto</a>
+            </div>
+            <p class="footer-copyright">© 2025 MusicGraph | Descubre nueva música con el poder de los grafos y la similitud de usuarios</p>
         </div>
     </footer>
     
@@ -1284,7 +1615,7 @@
         // Create particles
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
-            const particleCount = 30;
+            const particleCount = 40;
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
@@ -1301,16 +1632,193 @@
             }
         }
         
-        // Loading indicator
-        document.getElementById('recommendationForm').addEventListener('submit', function(e) {
-            // Show loading animation if needed
-            // In this implementation, the form will just submit normally
-        });
+        // Función para crear un indicador de carga
+        function createLoadingIndicator(message = "Analizando tus gustos musicales") {
+            const loadingIndicator = document.createElement('div');
+            loadingIndicator.className = 'loading';
+            loadingIndicator.style.display = 'block';
+            loadingIndicator.innerHTML = `
+                <div class="loading-content">
+                    <div class="spinner-container" aria-hidden="true">
+                        <div class="spinner"></div>
+                        <div class="spinner-inner"></div>
+                    </div>
+                    <h3 class="loading-title">${message}</h3>
+                    <p class="loading-description">Estamos procesando tu solicitud y buscando las mejores recomendaciones para ti</p>
+                    <div class="loading-progress" aria-hidden="true">
+                        <div class="loading-progress-bar"></div>
+                    </div>
+                    <p class="loading-status">Conectando con usuarios similares...</p>
+                </div>
+            `;
+            return loadingIndicator;
+        }
         
-        // Animate popularity bars on page load
+        // Función para crear una sección de resultados
+        function createResultsSection(data, title, description) {
+            if (!data.recomendaciones || data.recomendaciones.length === 0) {
+                return null;
+            }
+            
+            const resultCard = document.createElement('section');
+            resultCard.className = 'card results';
+            
+            let html = `
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-title-icon">
+                            <path d="M12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"></path>
+                            <path d="M12 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"></path>
+                            <path d="M20 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"></path>
+                            <path d="M4 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"></path>
+                            <path d="M16 12h4"></path>
+                            <path d="M4 12h4"></path>
+                            <path d="M12 6v4"></path>
+                            <path d="M12 14v4"></path>
+                        </svg>
+                        ${title}
+                    </h2>
+                    <p class="card-description">${description}</p>
+                </div>
+                <ul class="recommendation-list">
+            `;
+            
+            data.recomendaciones.forEach(reco => {
+                const maxCoincidencias = data.recomendaciones[0].coincidencias || 1;
+                const porcentaje = reco.coincidencias ? (reco.coincidencias / maxCoincidencias * 100).toFixed(0) : 10;
+                
+                html += `
+                    <li class="recommendation-item">
+                        <div class="recommendation-name">${reco.nombre}</div>
+                        <div class="recommendation-meta">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <span>${reco.coincidencias || 1} usuarios similares</span>
+                        </div>
+                `;
+                
+                // Añadir géneros si existen
+                if (reco.generos && reco.generos.length > 0) {
+                    html += `<div class="recommendation-genres">`;
+                    reco.generos.forEach(genero => {
+                        html += `<span class="genre-tag">${genero}</span>`;
+                    });
+                    html += `</div>`;
+                }
+                
+                html += `
+                        <div class="recommendation-popularity">
+                            <div class="popularity-label">
+                                <span>Coincidencia</span>
+                                <span>${porcentaje}%</span>
+                            </div>
+                            <div class="popularity-bar-container" role="progressbar" aria-valuenow="${porcentaje}" aria-valuemin="0" aria-valuemax="100">
+                                <div class="popularity-bar" style="width:${porcentaje}%"></div>
+                            </div>
+                        </div>
+                `;
+                
+                // Añadir origen si existe
+                if (reco.origen) {
+                    html += `
+                        <div class="recommendation-origin">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+                            </svg>
+                            <span>Origen: <strong>${reco.origen}</strong></span>
+                        </div>
+                    `;
+                }
+                
+                html += `</li>`;
+            });
+            
+            html += `</ul>`;
+            resultCard.innerHTML = html;
+            
+            return resultCard;
+        }
+        
+        // Función para animar las barras de popularidad
+        function animatePopularityBars(container) {
+            setTimeout(() => {
+                const bars = container.querySelectorAll('.popularity-bar');
+                bars.forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 300);
+                });
+            }, 100);
+        }
+        
+        // Función para manejar formularios con AJAX
+        function handleFormSubmit(formId, endpoint, resultTitle, resultDescription) {
+            const form = document.getElementById(formId);
+            if (!form) return;
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Eliminar resultados anteriores
+                const resultsContainer = document.getElementById('results-container');
+                while (resultsContainer.firstChild) {
+                    resultsContainer.removeChild(resultsContainer.firstChild);
+                }
+                
+                // Mostrar indicador de carga
+                const loadingIndicator = createLoadingIndicator();
+                form.parentNode.appendChild(loadingIndicator);
+                
+                try {
+                    // Enviar formulario con AJAX
+                    const formData = new FormData(form);
+                    const response = await fetch(endpoint, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const data = await response.json();
+                    
+                    // Eliminar indicador de carga
+                    loadingIndicator.remove();
+                    
+                    // Crear y mostrar resultados
+                    const resultSection = createResultsSection(data, resultTitle, resultDescription);
+                    if (resultSection) {
+                        resultsContainer.appendChild(resultSection);
+                        animatePopularityBars(resultSection);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    loadingIndicator.remove();
+                    
+                    // Mostrar mensaje de error
+                    const errorMessage = document.createElement('div');
+                    errorMessage.className = 'card';
+                    errorMessage.innerHTML = `
+                        <div class="card-header">
+                            <h2 class="card-title">Error</h2>
+                            <p class="card-description">Ha ocurrido un error al procesar tu solicitud. Por favor, inténtalo de nuevo.</p>
+                        </div>
+                    `;
+                    resultsContainer.appendChild(errorMessage);
+                }
+            });
+        }
+        
+        // Configurar todos los formularios para usar AJAX
         document.addEventListener('DOMContentLoaded', function() {
+            // Crear partículas
             createParticles();
             
+            // Animar barras de popularidad existentes
             const bars = document.querySelectorAll('.popularity-bar');
             bars.forEach(bar => {
                 const width = bar.style.width;
@@ -1319,6 +1827,79 @@
                     bar.style.width = width;
                 }, 300);
             });
+            
+            // Configurar formulario de recomendaciones
+            handleFormSubmit(
+                'recommendationForm', 
+                '/', 
+                'Tus Recomendaciones Personalizadas', 
+                'Basadas en tus gustos musicales y usuarios con preferencias similares'
+            );
+            
+            // Configurar formulario de explorador
+            handleFormSubmit(
+                'explorerForm', 
+                '/explorador', 
+                'Modo Explorador', 
+                'Descubre música fuera de tu zona de confort'
+            );
+            
+            // Configurar formulario de descubrimiento
+            const discoveryForm = document.getElementById('discoveryForm');
+            if (discoveryForm) {
+                discoveryForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    // Eliminar resultados anteriores
+                    const resultsContainer = document.getElementById('results-container');
+                    while (resultsContainer.firstChild) {
+                        resultsContainer.removeChild(resultsContainer.firstChild);
+                    }
+                    
+                    // Mostrar indicador de carga
+                    const loadingIndicator = createLoadingIndicator('Descubriendo nueva música');
+                    discoveryForm.parentNode.appendChild(loadingIndicator);
+                    
+                    try {
+                        // Enviar formulario con AJAX
+                        const formData = new FormData(discoveryForm);
+                        const response = await fetch('/descubrimiento', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        const data = await response.json();
+                        
+                        // Eliminar indicador de carga
+                        loadingIndicator.remove();
+                        
+                        // Crear y mostrar resultados
+                        const resultSection = createResultsSection(
+                            data, 
+                            'Modo Descubrimiento', 
+                            'Nuevas tendencias y artistas emergentes para ampliar tus horizontes'
+                        );
+                        if (resultSection) {
+                            resultsContainer.appendChild(resultSection);
+                            animatePopularityBars(resultSection);
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        loadingIndicator.remove();
+                        
+                        // Mostrar mensaje de error
+                        const errorMessage = document.createElement('div');
+                        errorMessage.className = 'card';
+                        errorMessage.innerHTML = `
+                            <div class="card-header">
+                                <h2 class="card-title">Error</h2>
+                                <p class="card-description">Ha ocurrido un error al procesar tu solicitud. Por favor, inténtalo de nuevo.</p>
+                            </div>
+                        `;
+                        resultsContainer.appendChild(errorMessage);
+                    }
+                });
+            }
         });
         
         // Navbar scroll effect

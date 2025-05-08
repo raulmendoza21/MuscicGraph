@@ -795,7 +795,7 @@
                             name="user_id" 
                             placeholder="Ej: spotify:user:tu_id o simplemente tu_id" 
                             required
-                            aria-describedby="id-helper"
+                            value="{{ user_id or '' }}"
                         >
                         <p id="id-helper" class="form-helper">Encuentra tu ID en la configuración de tu cuenta de Spotify</p>
                     </div>
