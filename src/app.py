@@ -1,11 +1,13 @@
 from flask import Flask
 from src.api import register_blueprints
-from src.config.settings import load_env
+from dotenv import load_dotenv
+from pathlib import Path
 import os
 
 def create_app():
     # Cargar variables de entorno
-    load_env()
+        # ✅ Cargar .env desde la raíz ANTES de cualquier otro import
+    load_dotenv(dotenv_path=Path(__file__).resolve().parent / ".env")   
 
     # Crear instancia de Flask
     app = Flask(__name__, template_folder="web/templates")

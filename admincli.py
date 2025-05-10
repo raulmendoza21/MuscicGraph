@@ -4,7 +4,6 @@ from src.db.mongodb_connection import get_mongo_database
 from src.db.neo4j_connection import get_neo4j_driver
 from src.graph.graph_builder_full import construir_grafo_completo, resetear_grafo
 from src.services.recommendation_service import recomendar_artistas_para_usuario
-
 from collections import Counter
 
 def mostrar_resumen_musical(top_n=10):
@@ -74,6 +73,7 @@ def menu():
         print("\n🚀 Automatización:")
         print("7. Ejecutar TODO el flujo")
         print("8. Recomendar artistas")
+        print("10. Actualizar popular_tracks desde Top 50 Global de Spotify")
         print("\n0. Salir")
 
         choice = input("Selecciona una opción: ")

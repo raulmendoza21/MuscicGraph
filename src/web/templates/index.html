@@ -64,6 +64,7 @@
             min-height: 100vh;
             overflow-x: hidden;
             background-attachment: fixed;
+            scroll-behavior: smooth;
         }
         
         .sr-only {
@@ -541,6 +542,7 @@
         /* Results - Mejorados */
         .results {
             animation: fadeIn 0.8s var(--transition-normal);
+            scroll-margin-top: 100px;
         }
         
         .recommendation-list {
@@ -562,6 +564,24 @@
             gap: 12px;
             position: relative;
             overflow: hidden;
+            animation: fadeInUp 0.6s var(--transition-normal);
+            animation-fill-mode: both;
+        }
+        
+        .recommendation-item:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        
+        .recommendation-item:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+        
+        .recommendation-item:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+        
+        .recommendation-item:nth-child(5) {
+            animation-delay: 0.4s;
         }
         
         .recommendation-item::before {
@@ -1008,6 +1028,42 @@
             font-size: 0.8rem;
             color: var(--text-tertiary);
         }
+
+        /* Notificaciones */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 16px 20px;
+            background: rgba(15, 15, 30, 0.95);
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            box-shadow: var(--shadow-md);
+            color: var(--text-primary);
+            z-index: 1000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease-out;
+            max-width: 350px;
+            backdrop-filter: var(--blur-effect);
+            -webkit-backdrop-filter: var(--blur-effect);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .notification-message {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
         
         /* Animations */
         @keyframes fadeIn {
@@ -1055,6 +1111,15 @@
             100% {
                 transform: translateY(-1000px) translateX(100px);
                 opacity: 0;
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
             }
         }
         
@@ -1341,6 +1406,16 @@
 
                 <div class="discovery-buttons">
                     <form id="discoveryForm" action="/descubrimiento" method="post">
+                        <div class="form-group">
+                            <label for="discovery_user_id">Tu Spotify ID:</label>
+                            <input 
+                                type="text" 
+                                id="discovery_user_id" 
+                                name="user_id" 
+                                placeholder="Ingresa tu Spotify ID" 
+                                required
+                            >
+                        </div>
                         <input type="hidden" name="limite" value="10">
                         <button type="submit" class="discovery-btn discovery-btn-primary">
                             <span>🔍 Modo Descubrimiento</span>
@@ -1588,6 +1663,18 @@
             <p class="footer-copyright">© 2025 MusicGraph | Descubre nueva música con el poder de los grafos y la similitud de usuarios</p>
         </div>
     </footer>
+
+    <!-- Notificación -->
+    <div class="notification" id="notification">
+        <div class="notification-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <span>Recomendaciones listas</span>
+        </div>
+        <p class="notification-message">Hemos encontrado música que podría gustarte</p>
+    </div>
     
     <script>
         // Toggle Add User Form
@@ -1631,6 +1718,22 @@
                 particlesContainer.appendChild(particle);
             }
         }
+
+        // Mostrar notificación
+        function showNotification(title, message) {
+            const notification = document.getElementById('notification');
+            const titleElement = notification.querySelector('.notification-title span');
+            const messageElement = notification.querySelector('.notification-message');
+            
+            titleElement.textContent = title;
+            messageElement.textContent = message;
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
         
         // Función para crear un indicador de carga
         function createLoadingIndicator(message = "Analizando tus gustos musicales") {
@@ -1662,6 +1765,7 @@
             
             const resultCard = document.createElement('section');
             resultCard.className = 'card results';
+            resultCard.id = 'results-section';
             
             let html = `
                 <div class="card-header">
@@ -1683,12 +1787,12 @@
                 <ul class="recommendation-list">
             `;
             
-            data.recomendaciones.forEach(reco => {
+            data.recomendaciones.forEach((reco, index) => {
                 const maxCoincidencias = data.recomendaciones[0].coincidencias || 1;
                 const porcentaje = reco.coincidencias ? (reco.coincidencias / maxCoincidencias * 100).toFixed(0) : 10;
                 
                 html += `
-                    <li class="recommendation-item">
+                    <li class="recommendation-item" style="animation-delay: ${index * 0.1}s">
                         <div class="recommendation-name">${reco.nombre}</div>
                         <div class="recommendation-meta">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1717,7 +1821,7 @@
                                 <span>${porcentaje}%</span>
                             </div>
                             <div class="popularity-bar-container" role="progressbar" aria-valuenow="${porcentaje}" aria-valuemin="0" aria-valuemax="100">
-                                <div class="popularity-bar" style="width:${porcentaje}%"></div>
+                                <div class="popularity-bar" style="width:0%"></div>
                             </div>
                         </div>
                 `;
@@ -1749,18 +1853,17 @@
             setTimeout(() => {
                 const bars = container.querySelectorAll('.popularity-bar');
                 bars.forEach(bar => {
-                    const width = bar.style.width;
-                    bar.style.width = '0';
-                    setTimeout(() => {
-                        bar.style.width = width;
-                    }, 300);
+                    const parentContainer = bar.closest('.popularity-bar-container');
+                    const valueNow = parentContainer.getAttribute('aria-valuenow');
+                    bar.style.width = valueNow + '%';
                 });
-            }, 100);
+            }, 300);
         }
         
         // Función para manejar formularios con AJAX
         function handleFormSubmit(formId, endpoint, resultTitle, resultDescription) {
             const form = document.getElementById(formId);
+            
             if (!form) return;
             
             form.addEventListener('submit', async function(e) {
@@ -1785,15 +1888,37 @@
                     });
                     
                     const data = await response.json();
-                    
+
                     // Eliminar indicador de carga
                     loadingIndicator.remove();
+
+                    // Mostrar error si lo hay
+                    if (data.error) {
+                        const errorMessage = document.createElement('div');
+                        errorMessage.className = 'card';
+                        errorMessage.innerHTML = `
+                            <div class="card-header">
+                                <h2 class="card-title">Error</h2>
+                                <p class="card-description">${data.error}</p>
+                            </div>
+                        `;
+                        resultsContainer.appendChild(errorMessage);
+                        return;
+                    }
                     
                     // Crear y mostrar resultados
                     const resultSection = createResultsSection(data, resultTitle, resultDescription);
                     if (resultSection) {
                         resultsContainer.appendChild(resultSection);
                         animatePopularityBars(resultSection);
+                        
+                        // Mostrar notificación
+                        showNotification("Recomendaciones listas", "Hemos encontrado música que podría gustarte");
+                        
+                        // Desplazar a la sección de resultados
+                        setTimeout(() => {
+                            resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 500);
                     }
                 } catch (error) {
                     console.error('Error:', error);
@@ -1813,10 +1938,43 @@
             });
         }
         
+        // Sincronizar campos de ID de usuario
+        function syncUserIdFields() {
+            const mainUserIdField = document.getElementById('user_id');
+            const explorerUserIdField = document.getElementById('explorer_user_id');
+            const discoveryUserIdField = document.getElementById('discovery_user_id');
+            
+            if (mainUserIdField && explorerUserIdField) {
+                mainUserIdField.addEventListener('input', function() {
+                    explorerUserIdField.value = this.value;
+                    if (discoveryUserIdField) {
+                        discoveryUserIdField.value = this.value;
+                    }
+                });
+                
+                explorerUserIdField.addEventListener('input', function() {
+                    mainUserIdField.value = this.value;
+                    if (discoveryUserIdField) {
+                        discoveryUserIdField.value = this.value;
+                    }
+                });
+                
+                if (discoveryUserIdField) {
+                    discoveryUserIdField.addEventListener('input', function() {
+                        mainUserIdField.value = this.value;
+                        explorerUserIdField.value = this.value;
+                    });
+                }
+            }
+        }
+        
         // Configurar todos los formularios para usar AJAX
         document.addEventListener('DOMContentLoaded', function() {
             // Crear partículas
             createParticles();
+            
+            // Sincronizar campos de ID de usuario
+            syncUserIdFields();
             
             // Animar barras de popularidad existentes
             const bars = document.querySelectorAll('.popularity-bar');
@@ -1845,60 +2003,19 @@
             );
             
             // Configurar formulario de descubrimiento
-            const discoveryForm = document.getElementById('discoveryForm');
-            if (discoveryForm) {
-                discoveryForm.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    
-                    // Eliminar resultados anteriores
-                    const resultsContainer = document.getElementById('results-container');
-                    while (resultsContainer.firstChild) {
-                        resultsContainer.removeChild(resultsContainer.firstChild);
-                    }
-                    
-                    // Mostrar indicador de carga
-                    const loadingIndicator = createLoadingIndicator('Descubriendo nueva música');
-                    discoveryForm.parentNode.appendChild(loadingIndicator);
-                    
-                    try {
-                        // Enviar formulario con AJAX
-                        const formData = new FormData(discoveryForm);
-                        const response = await fetch('/descubrimiento', {
-                            method: 'POST',
-                            body: formData
-                        });
-                        
-                        const data = await response.json();
-                        
-                        // Eliminar indicador de carga
-                        loadingIndicator.remove();
-                        
-                        // Crear y mostrar resultados
-                        const resultSection = createResultsSection(
-                            data, 
-                            'Modo Descubrimiento', 
-                            'Nuevas tendencias y artistas emergentes para ampliar tus horizontes'
-                        );
-                        if (resultSection) {
-                            resultsContainer.appendChild(resultSection);
-                            animatePopularityBars(resultSection);
-                        }
-                    } catch (error) {
-                        console.error('Error:', error);
-                        loadingIndicator.remove();
-                        
-                        // Mostrar mensaje de error
-                        const errorMessage = document.createElement('div');
-                        errorMessage.className = 'card';
-                        errorMessage.innerHTML = `
-                            <div class="card-header">
-                                <h2 class="card-title">Error</h2>
-                                <p class="card-description">Ha ocurrido un error al procesar tu solicitud. Por favor, inténtalo de nuevo.</p>
-                            </div>
-                        `;
-                        resultsContainer.appendChild(errorMessage);
-                    }
-                });
+            handleFormSubmit(
+                'discoveryForm',
+                '/descubrimiento',
+                'Modo Descubrimiento',
+                'Nuevas tendencias y artistas emergentes para ampliar tus horizontes'
+            );
+            
+            // Si hay resultados al cargar la página, desplazar a ellos
+            const existingResults = document.querySelector('.results');
+            if (existingResults) {
+                setTimeout(() => {
+                    existingResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 500);
             }
         });
         
