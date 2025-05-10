@@ -2,7 +2,7 @@ from src.db.mongodb_connection import get_mongo_collection
 from datetime import datetime
 
 def store_user_data(username, user_info, top_artists):
-    collection = get_mongo_collection("usuarios")
+    collection = get_mongo_collection("users")
     doc = {
         "username": username,
         "spotify_id": user_info['id'],

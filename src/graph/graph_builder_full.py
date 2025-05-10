@@ -5,18 +5,15 @@ import logging
 
 logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
 
-
 def resetear_grafo():
     driver = get_neo4j_driver()
     with driver.session() as session:
         session.run("MATCH (n) DETACH DELETE n")
         print("🧨 Todos los nodos y relaciones han sido eliminados.")
 
-
 def eliminar_grafo_anterior(session):
     logging.info("🚧 Eliminando grafo anterior...")
     session.run("MATCH (n) DETACH DELETE n")
-
 
 def crear_nodos_usuarios(session, users):
     logging.info("🔧 Creando nodos de usuarios...")
@@ -25,7 +22,6 @@ def crear_nodos_usuarios(session, users):
             MERGE (u:User {spotify_id: $id})
             SET u.display_name = $name
         """, id=user["spotify_id"], name=user["display_name"])
-
 
 def crear_nodos_y_relaciones_artistas(session, tracks):
     logging.info("🎵 Creando nodos de artistas y relaciones LISTENS_TO...")
@@ -44,7 +40,6 @@ def crear_nodos_y_relaciones_artistas(session, tracks):
                 MERGE (u)-[:LISTENS_TO]->(a)
             """, user_id=user_id, artist_id=artist["spotify_id"])
 
-
 def crear_relaciones_colaboracion(session, tracks):
     logging.info("🤝 Creando relaciones COLLABORATED_WITH entre artistas...")
     for track in tracks:
@@ -56,7 +51,6 @@ def crear_relaciones_colaboracion(session, tracks):
                     MERGE (a1)-[:COLLABORATED_WITH]->(a2)
                     MERGE (a2)-[:COLLABORATED_WITH]->(a1)
                 """, id1=artists[i]["spotify_id"], id2=artists[j]["spotify_id"])
-
 
 def crear_nodos_y_relaciones_generos(session, tracks):
     logging.info("🏷️ Creando nodos Genre y relaciones BELONGS_TO...")
@@ -74,14 +68,10 @@ def crear_nodos_y_relaciones_generos(session, tracks):
                 MERGE (a)-[:BELONGS_TO]->(g)
             """, artist_id=artist_id, genre=genre)
 
-
 def calcular_afinidad_usuarios(session, users, tracks):
     logging.info("👥 Calculando afinidad musical entre usuarios...")
-
-    # Solo usar top_tracks
     top_tracks = [t for t in tracks if t.get("source") == "top_tracks"]
 
-    # Agrupar datos por usuario
     datos_usuario = defaultdict(lambda: {"artistas": set(), "generos": set()})
     for track in top_tracks:
         user_id = track.get("user_spotify_id")
@@ -89,7 +79,6 @@ def calcular_afinidad_usuarios(session, users, tracks):
             datos_usuario[user_id]["artistas"].add(artist["spotify_id"])
             datos_usuario[user_id]["generos"].update(artist.get("genres", []))
 
-    # Comparar pares de usuarios
     for i, u1 in enumerate(users):
         id1 = u1["spotify_id"]
         for u2 in users[i + 1:]:
@@ -100,7 +89,6 @@ def calcular_afinidad_usuarios(session, users, tracks):
             u1_generos = datos_usuario[id1]["generos"]
             u2_generos = datos_usuario[id2]["generos"]
 
-            # Si alguno tiene muy pocos artistas, ignorar
             if len(u1_artistas) < 5 or len(u2_artistas) < 5:
                 continue
 
@@ -112,10 +100,18 @@ def calcular_afinidad_usuarios(session, users, tracks):
             union_generos = len(u1_generos | u2_generos)
             sim_generos = inter_generos / union_generos if union_generos else 0
 
-            total_score = round(0.6 * sim_artistas + 0.4 * sim_generos, 4)
+            diversidad_1 = len(u1_generos)
+            diversidad_2 = len(u2_generos)
+            penalizacion_mainstream = 0.0
+            if "pop" in u1_generos and "pop" in u2_generos:
+                penalizacion_mainstream = 0.1
 
-            # Penalización si tienen muy poca coincidencia real
-            if inter_artistas < 2 and inter_generos < 2:
+            total_score = 0.6 * sim_artistas + 0.4 * sim_generos
+            total_score = total_score * (1 - penalizacion_mainstream)
+            total_score = round(total_score, 4)
+
+            
+            if inter_artistas < 1 and inter_generos < 1:
                 continue
 
             if total_score > 0:
@@ -142,7 +138,6 @@ def construir_grafo_completo():
         calcular_afinidad_usuarios(session, users, tracks)
 
     logging.info("✅ Grafo completo construido exitosamente.")
-
 
 if __name__ == "__main__":
     resetear_grafo()

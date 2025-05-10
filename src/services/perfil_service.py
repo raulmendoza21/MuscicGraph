@@ -1,28 +1,13 @@
-# src/services/perfil_service.py
-from pymongo import MongoClient
-from collections import Counter
-import os
 from dotenv import load_dotenv
-from src.db.mongodb_connection import get_mongo_database
-
-
-load_dotenv()
-
-mongo_client = MongoClient(os.getenv("MONGODB_URI"))
-db = mongo_client[os.getenv("MONGODB_DATABASE", "musicgraph")]
-
 from pymongo import MongoClient
 from collections import Counter, defaultdict
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
-
+# Eliminamos llamadas duplicadas a load_dotenv()
 mongo_client = MongoClient(os.getenv("MONGODB_URI"))
 db = mongo_client[os.getenv("MONGODB_DATABASE", "musicgraph")]
 
 def analizar_perfil_usuario(user_id):
-    # Solo top_tracks, no playlist
     tracks = list(db["top_tracks"].find({"user_spotify_id": user_id, "source": "top_tracks"}))
     if not tracks:
         return {
@@ -56,7 +41,6 @@ def analizar_perfil_usuario(user_id):
     popularidad_promedio = round(sum(popularidades) / len(popularidades), 1)
     total_generos_distintos = len(genero_counter)
 
-    # Clasificación refinada
     perfil = "desconocido"
     if total_generos_distintos <= 2:
         perfil = "especialista"
@@ -81,5 +65,5 @@ def analizar_perfil_usuario(user_id):
     }
 
 def usuario_existe(user_id: str) -> bool:
-    db = get_mongo_database()
+    db = mongo_client[os.getenv("MONGODB_DATABASE", "musicgraph")]
     return db["top_tracks"].count_documents({"user_spotify_id": user_id}) > 0

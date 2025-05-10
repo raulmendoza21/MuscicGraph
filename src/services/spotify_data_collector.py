@@ -2,7 +2,6 @@ import os
 import time
 import datetime
 import spotipy
-from spotipy.util import prompt_for_user_token
 from spotipy.exceptions import SpotifyException
 from dotenv import load_dotenv
 from pymongo import MongoClient
@@ -14,19 +13,6 @@ class MultiUserSpotifyDataCollector:
         self.scope = 'user-library-read user-top-read playlist-read-private'
         client = MongoClient(os.getenv("MONGODB_URI"))
         self.db = client[os.getenv("MONGODB_DATABASE")]
-
-    def authenticate_user(self, username):
-        token = prompt_for_user_token(
-            username=username,
-            scope=self.scope,
-            client_id=os.getenv('SPOTIFY_CLIENT_ID'),
-            client_secret=os.getenv('SPOTIFY_CLIENT_SECRET'),
-            redirect_uri=os.getenv('SPOTIFY_REDIRECT_URI')
-        )
-        if not token:
-            raise Exception("❌ No se pudo obtener el token de autenticación.")
-        sp = spotipy.Spotify(auth=token)
-        return sp, token
 
     def _get_artist_genres_bulk(self, sp, artist_ids):
         genres_map = {}
@@ -174,14 +160,3 @@ class MultiUserSpotifyDataCollector:
             )
 
         print(f"✅ Datos de usuario {user_data['display_name']} almacenados correctamente.")
-
-    def add_multiple_users(self, num_users=1):
-        for i in range(num_users):
-            print(f"\n👤 Añadiendo usuario {i + 1}/{num_users}")
-            try:
-                username = input("🔑 Introduce el nombre de usuario de Spotify (único): ")
-                sp, _ = self.authenticate_user(username)
-                user_data, tracks, playlists = self.collect_user_data(sp)
-                self.store_user_data(user_data, tracks, playlists)
-            except Exception as e:
-                print(f"❌ Error añadiendo usuario: {e}")

@@ -1,4 +1,3 @@
-from src.config.settings import load_env
 from src.services.spotify_data_collector import MultiUserSpotifyDataCollector
 from src.db.mongodb_connection import get_mongo_database
 from src.db.neo4j_connection import get_neo4j_driver
@@ -113,7 +112,6 @@ def menu():
 
 def main():
     print("🚀 Iniciando MusicGraph...")
-    load_env()
     menu()
 
 if __name__ == "__main__":

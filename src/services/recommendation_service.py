@@ -1,20 +1,17 @@
 from src.db.neo4j_connection import get_neo4j_driver
 from pymongo import MongoClient
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 MONGO_URI = os.getenv("MONGODB_URI")
 MONGO_DB = os.getenv("MONGODB_DATABASE", "musicgraph")
 mongo_client = MongoClient(MONGO_URI)
 db = mongo_client[MONGO_DB]
 
-
 def get_recommendations(user_id, genero=None, limite=10):
     driver = get_neo4j_driver()
     recomendaciones = []
+    recomendados_ids = set()
 
-    # 🎯 Recomendaciones por afinidad (score real)
     query_similitud = """
     MATCH (u:User {spotify_id: $user_id})-[a:MUSICAL_AFFINITY]->(vecino:User)
     MATCH (vecino)-[:LISTENS_TO]->(artista:Artist)
@@ -22,7 +19,7 @@ def get_recommendations(user_id, genero=None, limite=10):
     OPTIONAL MATCH (artista)-[:BELONGS_TO]->(g:Genre)
     WITH artista, SUM(a.score) AS afinidad_total,
          COLLECT(DISTINCT g.name) AS generos
-    WHERE afinidad_total >= 0.3  /* solo recomendaciones con afinidad significativa */
+    WHERE afinidad_total >= 0.3
       AND ($genero IS NULL OR $genero IN generos)
     RETURN artista.spotify_id AS spotify_id,
            artista.name AS nombre,
@@ -34,19 +31,17 @@ def get_recommendations(user_id, genero=None, limite=10):
 
     with driver.session() as session:
         results = session.run(query_similitud, user_id=user_id, genero=genero, limite=limite)
-        recomendaciones = [
-            {
+        for r in results:
+            recomendaciones.append({
                 "spotify_id": r["spotify_id"],
                 "nombre": r["nombre"],
                 "coincidencias": round(r["afinidad_total"], 2),
                 "popularidad": 0,
                 "generos": r["generos"],
                 "origen": "afinidad"
-            }
-            for r in results
-        ]
+            })
+            recomendados_ids.add(r["spotify_id"])
 
-    # 🔁 Fallback por otros usuarios si no hay suficientes
     if len(recomendaciones) < limite:
         query_vecinos_fallback = """
         MATCH (u:User {spotify_id: $user_id})
@@ -63,26 +58,23 @@ def get_recommendations(user_id, genero=None, limite=10):
         ORDER BY coincidencias DESC
         LIMIT $limite
         """
+
         with driver.session() as session:
             results = session.run(query_vecinos_fallback, user_id=user_id, genero=genero, limite=limite)
-            recomendaciones.extend([
-                {
-                    "spotify_id": r["spotify_id"],
-                    "nombre": r["nombre"],
-                    "coincidencias": r["coincidencias"],
-                    "popularidad": 0,
-                    "generos": r["generos"],
-                    "origen": "otros usuarios"
-                }
-                for r in results
-                if r["spotify_id"] not in {rec["spotify_id"] for rec in recomendaciones}
-            ])
+            for r in results:
+                if r["spotify_id"] not in recomendados_ids:
+                    recomendaciones.append({
+                        "spotify_id": r["spotify_id"],
+                        "nombre": r["nombre"],
+                        "coincidencias": r["coincidencias"],
+                        "popularidad": 0,
+                        "generos": r["generos"],
+                        "origen": "otros usuarios"
+                    })
+                    recomendados_ids.add(r["spotify_id"])
 
-    # 📊 Fallback por popularidad (Mongo mejorado)
     if len(recomendaciones) < limite:
         faltan = limite - len(recomendaciones)
-
-        # Obtener artistas ya escuchados por el usuario
         user_tracks = db["top_tracks"].find({"user_spotify_id": user_id})
         user_artist_ids = {a["spotify_id"] for t in user_tracks for a in t.get("artists", [])}
 
@@ -105,37 +97,37 @@ def get_recommendations(user_id, genero=None, limite=10):
                 "generos": 1,
                 "num_usuarios": {"$size": "$usuarios"}
             }},
-            {"$sort": {
-                "num_usuarios": -1,
-                "popularidad": -1
-            }},
-            {"$limit": faltan}
+            {"$sort": {"num_usuarios": -1, "popularidad": -1}},
+            {"$limit": faltan * 2}  # más margen por si hay duplicados
         ]
 
         populares = db["top_tracks"].aggregate(pipeline)
-
         for p in populares:
-            recomendaciones.append({
-                "spotify_id": p["_id"],
-                "nombre": p["nombre"],
-                "coincidencias": 0,
-                "popularidad": int(p["popularidad"]),
-                "generos": list({g for sub in p["generos"] for g in sub}),
-                "origen": "popularidad"
-            })
+            if p["_id"] not in recomendados_ids:
+                recomendaciones.append({
+                    "spotify_id": p["_id"],
+                    "nombre": p["nombre"],
+                    "coincidencias": 0,
+                    "popularidad": int(p["popularidad"]),
+                    "generos": list({g for sub in p["generos"] for g in sub}),
+                    "origen": "popularidad"
+                })
+                recomendados_ids.add(p["_id"])
+            if len(recomendaciones) >= limite:
+                break
 
-    # 📈 Normalización y score final
     max_coinc = max([r["coincidencias"] for r in recomendaciones if r["coincidencias"] > 0], default=1)
     max_pop = max([r.get("popularidad", 0) for r in recomendaciones], default=1)
 
     for r in recomendaciones:
         afinidad_norm = r["coincidencias"] / max_coinc if max_coinc > 0 else 0
-        pop_norm = r.get("popularidad", 0) / 100  # popularidad va de 0 a 100
-        diversidad = len(set(r.get("generos", []))) / 10  # hasta 10 géneros distintos
+        pop_norm = r.get("popularidad", 0) / 100
+        diversidad = len(set(r.get("generos", []))) / 10
         r["score"] = round(0.6 * afinidad_norm + 0.3 * pop_norm + 0.1 * diversidad, 4)
 
     recomendaciones.sort(key=lambda r: r["score"], reverse=True)
     return recomendaciones
+
 
 
 def get_explorador_recommendations(user_id, level=10):

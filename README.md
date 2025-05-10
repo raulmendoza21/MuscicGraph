@@ -1,43 +1,52 @@
 # 🎶 MusicGraph
 
-**MusicGraph** es un sistema de análisis musical que recolecta hábitos de escucha de usuarios de Spotify, los almacena en MongoDB y construye un grafo relacional en Neo4j para visualizar afinidades musicales, colaboraciones entre artistas y generar futuras recomendaciones personalizadas.
+**MusicGraph** es un sistema inteligente de descubrimiento musical que analiza hábitos de escucha de usuarios de Spotify, almacena sus datos en MongoDB y construye un grafo en Neo4j para descubrir afinidades musicales, colaboraciones entre artistas y ofrecer recomendaciones personalizadas.
 
 ---
 
 ## 🧠 Objetivo
 
-Crear un sistema que:
-- Recoja datos reales de usuarios desde Spotify
-- Almacene su historial musical y playlists
+Crear una plataforma que:
+- Recoja datos reales de usuarios desde Spotify (top tracks)
+- Almacene su historial musical en MongoDB
 - Construya un grafo en Neo4j con relaciones entre usuarios, artistas y géneros
-- Calcule afinidades musicales entre usuarios
-- Permita futuras recomendaciones personalizadas
+- Calcule la afinidad musical entre usuarios con teoría de grafos
+- Genere recomendaciones personalizadas y modos de exploración musical
 
 ---
 
 ## ⚙️ Tecnologías usadas
 
 - **Python 3.10**
-- **Spotify API** – para obtener datos reales
-- **MongoDB** – para almacenamiento documental
-- **Neo4j** – para modelar relaciones complejas como grafos
-- **Spotipy** – wrapper de la API de Spotify
-- **dotenv / logging / pymongo / neo4j** – utilidades y conexiones
+- **Spotify API** (vía Spotipy)
+- **MongoDB** – almacenamiento documental
+- **Neo4j** – modelado de grafos
+- **Flask** – interfaz web moderna
+- **AJAX + HTML/CSS** – para experiencia dinámica sin recargas
+- **dotenv / pymongo / neo4j / spotipy** – utilidades y conexiones
 
 ---
 
 ## 📂 Estructura del proyecto
 
 ```
-MusicGraph/
-├── main.py                        # Menú interactivo para ejecutar todo
-├── .env                           # Variables sensibles (NO subir)
-├── requirements.txt               # Librerías necesarias
+musicgraph/
+├── app.py                      # Arranque Flask
+├── admincli.py                 # CLI para mantenimiento
+├── main.py                     # Legacy script (opcional)
+├── .env                        # Variables sensibles (NO subir)
+├── docker-compose.yml          # Servicios MongoDB y Neo4j
+├── requirements.txt
+├── web/
+│   └── templates/
+│       ├── index.html          # Página principal y recomendaciones
+│       └── perfil.html         # Análisis del perfil musical
 ├── src/
-│   ├── config/                    # Configuración de entorno
-│   ├── data/                      # Recolección de datos Spotify
-│   ├── db/                        # Conexiones MongoDB y Neo4j
-│   ├── graph/                     # Construcción y limpieza del grafo
+│   ├── api/                    # Rutas Flask (blueprints)
+│   ├── config/                 # Carga de entorno
+│   ├── db/                     # Conexión MongoDB / Neo4j
+│   ├── graph/                  # Construcción de grafo
+│   ├── services/               # Recomendaciones, recolección, perfil
 │   └── __init__.py
 ```
 
@@ -65,16 +74,16 @@ source venv/bin/activate  # o .\venv\Scripts\activate en Windows
 pip install -r requirements.txt
 ```
 
-### 4. Configura tu `.env`
+### 4. Configura el entorno
 
-Crea un archivo `.env` en la raíz con este contenido:
+Crea un archivo `.env` en la raíz con el siguiente contenido:
 
-```
-SPOTIFY_CLIENT_ID=tu_id
-SPOTIFY_CLIENT_SECRET=tu_secret
+```ini
+SPOTIFY_CLIENT_ID=tu_client_id
+SPOTIFY_CLIENT_SECRET=tu_client_secret
 SPOTIFY_REDIRECT_URI=http://localhost:8888/callback
 
-MONGODB_URI=mongodb://localhost:27017
+MONGODB_URI=mongodb://admin:password@localhost:27017/musicgraph?authSource=admin
 MONGODB_DATABASE=musicgraph
 
 NEO4J_URI=bolt://localhost:7687
@@ -82,32 +91,50 @@ NEO4J_USERNAME=neo4j
 NEO4J_PASSWORD=password
 ```
 
-### 5. Ejecuta el menú interactivo
+### 5. Levanta servicios con Docker (MongoDB y Neo4j)
 
 ```bash
-python main.py
+docker-compose up -d
 ```
 
-Desde el menú podrás:
-- Conectar a MongoDB y Neo4j
-- Recolectar datos de usuarios
-- Generar y limpiar el grafo
-- Crear relaciones avanzadas
+### 6. Lanza la app web
+
+```bash
+python app.py
+```
+
+O usa el menú CLI:
+
+```bash
+python admincli.py
+```
 
 ---
 
-## 📸 Ejemplo del grafo
+## 🌐 Funcionalidades disponibles
 
-*Puedes insertar una captura aquí desde Neo4j Browser o una visualización en Python.*
+- Añadir usuario vía conexión con Spotify
+- Analizar tu perfil musical y clasificarte: explorador, especialista, mainstream, etc.
+- Obtener recomendaciones personalizadas con filtrado por género
+- Modo explorador y descubrimiento para salir de tu zona de confort
+- Grafo dinámico de usuarios, artistas y géneros
+- Afinidad musical basada en coincidencias de artistas y géneros
 
 ---
 
-## 📚 Trabajo futuro
+## 📸 Captura de interfaz
 
-- Sistema de recomendaciones por afinidad musical
-- Visualización con NetworkX o Pyvis
-- Dashboard de artistas más escuchados por comunidad
-- Exportación de playlists sugeridas
+> Inserta aquí una imagen de tu frontend o del grafo de Neo4j
+
+---
+
+## 🧭 Trabajo futuro
+
+- Recomendaciones más profundas (colaborativas + contenido)
+- Visualización interactiva del grafo (Pyvis / Cytoscape.js)
+- Exportar playlists sugeridas directamente a Spotify
+- Clustering de comunidades musicales
+- Sugerencias cruzadas entre perfiles similares
 
 ---
 
@@ -118,4 +145,5 @@ Desde el menú podrás:
 
 ---
 
-> Proyecto para la asignatura de **Bases de Datos No Relacionales (BDNR)** - Grado en Ciencia e Ingeniería de Datos - ULPGC
+> Proyecto desarrollado para la asignatura **Bases de Datos No Relacionales (BDNR)**  
+> Grado en Ciencia e Ingeniería de Datos – **ULPGC**
