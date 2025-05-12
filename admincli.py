@@ -72,7 +72,6 @@ def menu():
         print("\n🚀 Automatización:")
         print("7. Ejecutar TODO el flujo")
         print("8. Recomendar artistas")
-        print("10. Actualizar popular_tracks desde Top 50 Global de Spotify")
         print("\n0. Salir")
 
         choice = input("Selecciona una opción: ")
@@ -97,8 +96,7 @@ def menu():
             construir_grafo_completo()
         elif choice == "8":
             user_id = input("🎧 Ingresa tu Spotify ID: ").strip()
-            genero = input("🎼 ¿Filtrar por género? (deja vacío para todos): ").strip()
-            recomendaciones = recomendar_artistas_para_usuario(user_id, genero or None)
+            recomendaciones = recomendar_artistas_para_usuario(user_id,None)
             print("\n🎯 Recomendaciones:")
             for r in recomendaciones:
                 print(f"- {r['nombre']} ({', '.join(r['generos'])}) - Popularidad: {r['popularidad']}")
