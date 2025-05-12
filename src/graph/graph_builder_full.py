@@ -139,6 +139,36 @@ def construir_grafo_completo():
 
     logging.info("✅ Grafo completo construido exitosamente.")
 
+def integrar_nuevo_usuario(user_id):
+    db = get_mongo_database()
+    driver = get_neo4j_driver()
+
+    user = db["users"].find_one({"spotify_id": user_id})
+    if not user:
+        print(f"⚠️ Usuario {user_id} no encontrado en MongoDB.")
+        return
+
+    tracks = list(db["top_tracks"].find({"user_spotify_id": user_id}))
+    if not tracks:
+        print(f"⚠️ No hay tracks registrados para el usuario {user_id}.")
+        return
+
+    with driver.session() as session:
+        crear_nodos_usuarios(session, [user])
+        crear_nodos_y_relaciones_artistas(session, tracks)
+        crear_relaciones_colaboracion(session, tracks)
+        crear_nodos_y_relaciones_generos(session, tracks)
+
+        # Afinidad entre el nuevo usuario y los demás
+        otros_usuarios = list(db["users"].find({"spotify_id": {"$ne": user_id}}))
+        otros_tracks = list(db["top_tracks"].find({
+            "user_spotify_id": {"$in": [u["spotify_id"] for u in otros_usuarios]}
+        }))
+
+        if otros_usuarios and otros_tracks:
+            calcular_afinidad_usuarios(session, [user] + otros_usuarios, tracks + otros_tracks)
+
+    print(f"✅ Usuario {user_id} integrado al grafo.")
 if __name__ == "__main__":
     resetear_grafo()
     construir_grafo_completo()

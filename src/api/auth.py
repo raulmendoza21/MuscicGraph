@@ -5,6 +5,8 @@ from pathlib import Path
 import os
 import shutil
 from src.graph.graph_builder_full import construir_grafo_completo
+from src.graph.graph_builder_full import integrar_nuevo_usuario
+
 
 
 from src.services.spotify_data_collector import MultiUserSpotifyDataCollector
@@ -66,7 +68,7 @@ def callback():
         user_data, tracks, playlists = collector.collect_user_data(sp)
         collector.store_user_data(user_data, tracks, playlists)
 
-        construir_grafo_completo()
+        integrar_nuevo_usuario(user_id)
         session["user_id"] = user_id
         return redirect(f"/perfil?user_id={user_id}")
 
