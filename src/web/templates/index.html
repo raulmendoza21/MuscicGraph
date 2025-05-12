@@ -345,7 +345,7 @@
         }
         
         .card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-4px);
             box-shadow: var(--shadow-lg);
         }
         
@@ -449,10 +449,10 @@
             background: var(--primary);
             color: black;
             border: none;
-            padding: 16px 24px;
+            padding: 14px 24px;
             border-radius: 500px;
-            font-weight: 600;
-            font-size: 1rem;
+            font-weight: 700;
+            font-size: 0.95rem;
             cursor: pointer;
             transition: all var(--transition-normal);
             display: flex;
@@ -462,6 +462,7 @@
             box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
             position: relative;
             overflow: hidden;
+            letter-spacing: 0.5px;
         }
         
         .btn::before {
@@ -477,7 +478,7 @@
         
         .btn:hover {
             background: var(--primary-hover);
-            transform: scale(1.05);
+            transform: scale(1.04);
             box-shadow: 0 6px 16px rgba(29, 185, 84, 0.4);
         }
         
@@ -600,13 +601,9 @@
         }
         
         .recommendation-item:hover {
-            transform: translateY(-8px);
+            transform: translateY(-4px);
             background: var(--card-hover-bg);
             box-shadow: var(--shadow-md);
-        }
-        
-        .recommendation-item:hover::before {
-            opacity: 1;
         }
         
         .recommendation-name {
@@ -1287,7 +1284,7 @@
                 <span class="logo-icon" aria-hidden="true">🎧</span>
                 <h1 class="logo-text">MusicGraph</h1>
             </div>
-            <p class="tagline">Descubre nueva música basada en algoritmos de grafos y análisis de redes sociales. Una experiencia musical personalizada que evoluciona contigo.</p>
+            <p class="tagline">Descubre nueva música basada en algoritmos de grafos y análisis de redes sociales. Una experiencia personalizada al estilo Spotify.</p>
         </header>
         
         <main>
@@ -1318,17 +1315,7 @@
                         <p id="id-helper" class="form-helper">Encuentra tu ID en la configuración de tu cuenta de Spotify</p>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="genero">Filtrar por género (opcional):</label>
-                        <input 
-                            type="text" 
-                            id="genero" 
-                            name="genero" 
-                            placeholder="Ej: rock, pop, jazz, electrónica..."
-                            aria-describedby="genre-helper"
-                        >
-                        <p id="genre-helper" class="form-helper">Deja en blanco para recibir recomendaciones de todos los géneros</p>
-                    </div>
+                    
                     
                     <button type="submit" class="btn">
                         <span>Obtener recomendaciones</span>
@@ -1350,7 +1337,7 @@
                             <path d="M12 12 7 4.9"></path>
                             <path d="m12 12 5-1.5"></path>
                         </svg>
-                        Modos de Descubrimiento
+                        Modo de Descubrimiento
                     </h2>
                     <p class="card-description">Explora diferentes formas de descubrir música nueva y expandir tus horizontes musicales.</p>
                 </div>
@@ -1394,24 +1381,7 @@
                     </button>
                 </form>
 
-                <div class="discovery-buttons">
-                    <form id="discoveryForm" action="/descubrimiento" method="post">
-                        <div class="form-group">
-                            <label for="discovery_user_id">Tu Spotify ID:</label>
-                            <input 
-                                type="text" 
-                                id="discovery_user_id" 
-                                name="user_id" 
-                                placeholder="Ingresa tu Spotify ID" 
-                                required
-                            >
-                        </div>
-                        <input type="hidden" name="limite" value="10">
-                        <button type="submit" class="discovery-btn discovery-btn-primary">
-                            <span>🔍 Modo Descubrimiento</span>
-                        </button>
-                    </form>
-                </div>
+                
             </section>
             
             <!-- Resultados de recomendaciones -->
@@ -1932,29 +1902,15 @@
         function syncUserIdFields() {
             const mainUserIdField = document.getElementById('user_id');
             const explorerUserIdField = document.getElementById('explorer_user_id');
-            const discoveryUserIdField = document.getElementById('discovery_user_id');
             
             if (mainUserIdField && explorerUserIdField) {
                 mainUserIdField.addEventListener('input', function() {
                     explorerUserIdField.value = this.value;
-                    if (discoveryUserIdField) {
-                        discoveryUserIdField.value = this.value;
-                    }
                 });
                 
                 explorerUserIdField.addEventListener('input', function() {
                     mainUserIdField.value = this.value;
-                    if (discoveryUserIdField) {
-                        discoveryUserIdField.value = this.value;
-                    }
                 });
-                
-                if (discoveryUserIdField) {
-                    discoveryUserIdField.addEventListener('input', function() {
-                        mainUserIdField.value = this.value;
-                        explorerUserIdField.value = this.value;
-                    });
-                }
             }
         }
         
@@ -1992,13 +1948,7 @@
                 'Descubre música fuera de tu zona de confort'
             );
             
-            // Configurar formulario de descubrimiento
-            handleFormSubmit(
-                'discoveryForm',
-                '/descubrimiento',
-                'Modo Descubrimiento',
-                'Nuevas tendencias y artistas emergentes para ampliar tus horizontes'
-            );
+            
             
             // Si hay resultados al cargar la página, desplazar a ellos
             const existingResults = document.querySelector('.results');
