@@ -12,34 +12,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Color scheme - Paleta profesional */
-            --primary: #8c52ff;
-            --primary-hover: #7039e6;
-            --primary-light: rgba(140, 82, 255, 0.1);
-            --secondary: #ff5287;
-            --secondary-hover: #e63e73;
-            --tertiary: #3ecfff;
-            --tertiary-hover: #2ab8e6;
-            --quaternary: #ffb84d;
-            --quaternary-hover: #e69c29;
-            --gradient-bg: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
-            --card-bg: rgba(255, 255, 255, 0.07);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --card-hover-bg: rgba(255, 255, 255, 0.12);
+            /* Color scheme - Spotify palette */
+            --primary: #1DB954;
+            --primary-hover: #1ed760;
+            --primary-light: rgba(29, 185, 84, 0.1);
+            --secondary: #1DB954;
+            --secondary-hover: #1ed760;
+            --tertiary: #1DB954;
+            --tertiary-hover: #1ed760;
+            --quaternary: #1DB954;
+            --quaternary-hover: #1ed760;
+            --gradient-bg: linear-gradient(135deg, #121212 0%, #181818 100%);
+            --card-bg: rgba(30, 30, 30, 0.7);
+            --card-border: rgba(40, 40, 40, 0.7);
+            --card-hover-bg: rgba(40, 40, 40, 0.8);
             --text-primary: #ffffff;
             --text-secondary: rgba(255, 255, 255, 0.7);
             --text-tertiary: rgba(255, 255, 255, 0.5);
-            --nav-bg: rgba(15, 15, 30, 0.8);
-            --accent-blue: #60a5fa;
-            --accent-green: #4ade80;
-            --accent-yellow: #facc15;
-            --accent-red: #f87171;
+            --nav-bg: rgba(0, 0, 0, 0.8);
+            --accent-blue: #1DB954;
+            --accent-green: #1DB954;
+            --accent-yellow: #1DB954;
+            --accent-red: #1DB954;
             
             /* Shadows - Más refinados */
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
-            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.2);
-            --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.25);
-            --shadow-glow: 0 0 15px rgba(140, 82, 255, 0.3);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 15px rgba(29, 185, 84, 0.3);
             
             /* Animations */
             --transition-fast: 0.2s ease;
@@ -107,7 +107,7 @@
             backdrop-filter: var(--blur-effect);
             -webkit-backdrop-filter: var(--blur-effect);
             z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(40, 40, 40, 0.7);
             box-shadow: var(--shadow-sm);
             transition: all var(--transition-normal);
         }
@@ -131,13 +131,13 @@
         .navbar-logo-icon {
             font-size: 1.5rem;
             color: var(--primary);
-            filter: drop-shadow(0 0 8px rgba(140, 82, 255, 0.5));
+            filter: drop-shadow(0 0 8px rgba(29, 185, 84, 0.5));
         }
         
         .navbar-logo-text {
             font-size: 1.5rem;
             font-weight: 800;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+            background: linear-gradient(to right, var(--primary), var(--primary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -156,11 +156,11 @@
         }
         
         .navbar-add-user-btn {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            color: white;
+            background: var(--primary);
+            color: black;
             border: none;
             padding: 10px 16px;
-            border-radius: 8px;
+            border-radius: 500px;
             font-weight: 600;
             font-size: 0.9rem;
             cursor: pointer;
@@ -168,14 +168,15 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 4px 12px rgba(140, 82, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
             text-decoration: none;
             white-space: nowrap;
         }
         
         .navbar-add-user-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(140, 82, 255, 0.4);
+            transform: scale(1.05);
+            background: var(--primary-hover);
+            box-shadow: 0 6px 16px rgba(29, 185, 84, 0.4);
         }
         
         .navbar-add-user-form {
@@ -183,8 +184,8 @@
             top: 100%;
             right: 0;
             width: 300px;
-            background: rgba(15, 15, 30, 0.95);
-            border-radius: 12px;
+            background: rgba(18, 18, 18, 0.95);
+            border-radius: 8px;
             padding: 20px;
             margin-top: 12px;
             box-shadow: var(--shadow-md);
@@ -227,7 +228,7 @@
             left: -20%;
             width: 140%;
             height: 200%;
-            background: radial-gradient(circle at center, rgba(140, 82, 255, 0.15) 0%, rgba(140, 82, 255, 0) 70%);
+            background: radial-gradient(circle at center, rgba(29, 185, 84, 0.15) 0%, rgba(29, 185, 84, 0) 70%);
             z-index: -1;
             animation: pulse 15s infinite alternate;
         }
@@ -253,21 +254,21 @@
         }
         
         .particle:nth-child(2n) {
-            background: var(--secondary);
+            background: var(--primary);
             width: 4px;
             height: 4px;
             animation-duration: 25s;
         }
         
         .particle:nth-child(3n) {
-            background: var(--tertiary);
+            background: var(--primary);
             width: 3px;
             height: 3px;
             animation-duration: 30s;
         }
         
         .particle:nth-child(4n) {
-            background: var(--quaternary);
+            background: var(--primary);
             width: 5px;
             height: 5px;
             animation-duration: 22s;
@@ -284,13 +285,13 @@
         .logo-icon {
             font-size: 3.5rem;
             color: var(--primary);
-            filter: drop-shadow(0 0 12px rgba(140, 82, 255, 0.5));
+            filter: drop-shadow(0 0 12px rgba(29, 185, 84, 0.5));
         }
         
         .logo-text {
             font-size: 3.5rem;
             font-weight: 800;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+            background: linear-gradient(to right, var(--primary), var(--primary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -304,7 +305,7 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
+            background: linear-gradient(90deg, transparent, var(--primary), var(--primary), transparent);
         }
         
         .tagline {
@@ -319,7 +320,7 @@
         /* Cards - Refinadas */
         .card {
             background: var(--card-bg);
-            border-radius: 24px;
+            border-radius: 8px;
             border: 1px solid var(--card-border);
             padding: 40px;
             margin-bottom: 48px;
@@ -339,7 +340,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at top right, rgba(140, 82, 255, 0.1), transparent 70%);
+            background: radial-gradient(circle at top right, rgba(29, 185, 84, 0.1), transparent 70%);
             z-index: -1;
         }
         
@@ -397,9 +398,9 @@
         
         input[type="text"], input[type="range"] {
             padding: 16px;
-            border-radius: 12px;
+            border-radius: 4px;
             border: 1px solid var(--card-border);
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(40, 40, 40, 0.7);
             color: var(--text-primary);
             font-size: 1rem;
             transition: all var(--transition-normal);
@@ -411,7 +412,7 @@
             height: 6px;
             -webkit-appearance: none;
             appearance: none;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(40, 40, 40, 0.7);
             outline: none;
         }
         
@@ -437,7 +438,7 @@
         input[type="text"]:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(140, 82, 255, 0.25);
+            box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.25);
         }
         
         input[type="text"]::placeholder {
@@ -446,10 +447,10 @@
         
         .btn {
             background: var(--primary);
-            color: white;
+            color: black;
             border: none;
             padding: 16px 24px;
-            border-radius: 12px;
+            border-radius: 500px;
             font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
@@ -458,7 +459,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 4px 12px rgba(140, 82, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
             position: relative;
             overflow: hidden;
         }
@@ -476,8 +477,8 @@
         
         .btn:hover {
             background: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(140, 82, 255, 0.4);
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(29, 185, 84, 0.4);
         }
         
         .btn:hover::before {
@@ -485,23 +486,25 @@
         }
         
         .btn:active {
-            transform: translateY(0);
+            transform: scale(1);
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(40, 40, 40, 0.7);
+            color: white;
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(60, 60, 60, 0.7);
         }
 
         .btn-accent-blue {
-            background: var(--tertiary);
+            background: var(--primary);
+            color: black;
         }
 
         .btn-accent-blue:hover {
-            background: var(--tertiary-hover);
+            background: var(--primary-hover);
         }
         
         .discovery-buttons {
@@ -515,7 +518,7 @@
             flex: 1;
             min-width: 200px;
             padding: 16px;
-            border-radius: 12px;
+            border-radius: 500px;
             font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
@@ -524,18 +527,18 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            color: white;
+            color: black;
             border: none;
             box-shadow: var(--shadow-sm);
         }
         
         .discovery-btn-primary {
-            background: var(--quaternary);
+            background: var(--primary);
         }
         
         .discovery-btn-primary:hover {
-            background: var(--quaternary-hover);
-            transform: translateY(-2px);
+            background: var(--primary-hover);
+            transform: scale(1.05);
             box-shadow: var(--shadow-md);
         }
         
@@ -554,8 +557,8 @@
         }
         
         .recommendation-item {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
+            background: rgba(40, 40, 40, 0.7);
+            border-radius: 8px;
             padding: 24px;
             transition: all var(--transition-normal);
             border: 1px solid var(--card-border);
@@ -591,7 +594,7 @@
             left: 0;
             width: 100%;
             height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            background: var(--primary);
             opacity: 0;
             transition: opacity var(--transition-normal);
         }
@@ -639,7 +642,7 @@
         
         .popularity-bar-container {
             height: 6px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(40, 40, 40, 0.7);
             border-radius: 3px;
             overflow: hidden;
             position: relative;
@@ -648,7 +651,7 @@
         
         .popularity-bar {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            background: var(--primary);
             border-radius: 3px;
             position: absolute;
             top: 0;
@@ -661,8 +664,8 @@
             color: var(--text-tertiary);
             margin-top: 6px;
             padding: 6px 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
+            background: rgba(40, 40, 40, 0.7);
+            border-radius: 4px;
             display: flex;
             align-items: center;
             gap: 6px;
@@ -682,8 +685,8 @@
         .genre-tag {
             font-size: 0.75rem;
             padding: 4px 8px;
-            border-radius: 6px;
-            background: rgba(140, 82, 255, 0.15);
+            border-radius: 500px;
+            background: rgba(29, 185, 84, 0.15);
             color: var(--text-secondary);
         }
         
@@ -715,7 +718,7 @@
             transform: translateX(-50%);
             width: 60px;
             height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            background: var(--primary);
             border-radius: 3px;
         }
         
@@ -734,7 +737,7 @@
         
         .step {
             background: var(--card-bg);
-            border-radius: 20px;
+            border-radius: 8px;
             padding: 32px;
             display: flex;
             flex-direction: column;
@@ -753,7 +756,7 @@
         .step-icon {
             width: 64px;
             height: 64px;
-            border-radius: 16px;
+            border-radius: 8px;
             background: var(--primary-light);
             display: flex;
             align-items: center;
@@ -770,7 +773,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(140, 82, 255, 0.3), transparent 70%);
+            background: radial-gradient(circle at center, rgba(29, 185, 84, 0.3), transparent 70%);
             z-index: -1;
             animation: pulse 3s infinite alternate;
         }
@@ -831,7 +834,7 @@
             transform: translateX(-50%);
             width: 60px;
             height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            background: var(--primary);
             border-radius: 3px;
         }
         
@@ -851,7 +854,7 @@
         
         .feature-card {
             background: var(--card-bg);
-            border-radius: 16px;
+            border-radius: 8px;
             padding: 24px;
             border: 1px solid var(--card-border);
             transition: all var(--transition-normal);
@@ -868,7 +871,7 @@
         .feature-icon {
             width: 48px;
             height: 48px;
-            border-radius: 12px;
+            border-radius: 8px;
             background: var(--primary-light);
             display: flex;
             align-items: center;
@@ -896,7 +899,7 @@
         footer {
             text-align: center;
             padding: 60px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(40, 40, 40, 0.7);
             color: var(--text-tertiary);
             font-size: 0.9rem;
             margin-top: 40px;
@@ -911,7 +914,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at bottom center, rgba(140, 82, 255, 0.05), transparent 70%);
+            background: radial-gradient(circle at bottom center, rgba(29, 185, 84, 0.05), transparent 70%);
             z-index: -1;
         }
         
@@ -979,7 +982,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            border: 4px solid rgba(140, 82, 255, 0.1);
+            border: 4px solid rgba(29, 185, 84, 0.1);
             border-radius: 50%;
             border-top-color: var(--primary);
             animation: spin 1s linear infinite;
@@ -991,9 +994,9 @@
             left: 15px;
             width: calc(100% - 30px);
             height: calc(100% - 30px);
-            border: 4px solid rgba(255, 82, 135, 0.1);
+            border: 4px solid rgba(29, 185, 84, 0.1);
             border-radius: 50%;
-            border-top-color: var(--secondary);
+            border-top-color: var(--primary);
             animation: spin 0.8s linear infinite reverse;
         }
         
@@ -1011,7 +1014,7 @@
         
         .loading-progress {
             height: 4px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(40, 40, 40, 0.7);
             border-radius: 2px;
             overflow: hidden;
             margin-bottom: 8px;
@@ -1019,7 +1022,7 @@
         
         .loading-progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary) 100%);
+            background: var(--primary);
             width: 0;
             animation: progress 2s ease-in-out infinite;
         }
@@ -1035,9 +1038,9 @@
             bottom: 20px;
             right: 20px;
             padding: 16px 20px;
-            background: rgba(15, 15, 30, 0.95);
+            background: rgba(18, 18, 18, 0.95);
             border-left: 4px solid var(--primary);
-            border-radius: 8px;
+            border-radius: 4px;
             box-shadow: var(--shadow-md);
             color: var(--text-primary);
             z-index: 1000;
@@ -1210,7 +1213,7 @@
             
             .card {
                 padding: 24px;
-                border-radius: 20px;
+                border-radius: 8px;
             }
             
             .btn {
@@ -2010,7 +2013,7 @@
         window.addEventListener('scroll', function() {
             const navbar = document.querySelector('.navbar');
             if (window.scrollY > 50) {
-                navbar.style.background = 'rgba(15, 15, 30, 0.95)';
+                navbar.style.background = 'rgba(0, 0, 0, 0.95)';
                 navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
             } else {
                 navbar.style.background = 'var(--nav-bg)';

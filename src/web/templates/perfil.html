@@ -10,30 +10,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Color scheme */
-            --primary: #8c52ff;
-            --primary-hover: #7039e6;
-            --primary-light: rgba(140, 82, 255, 0.1);
-            --secondary: #ff5287;
-            --gradient-bg: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
-            --card-bg: rgba(255, 255, 255, 0.07);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --card-hover-bg: rgba(255, 255, 255, 0.12);
+            /* Spotify-inspired color scheme */
+            --primary: #1DB954;
+            --primary-hover: #1ed760;
+            --primary-light: rgba(29, 185, 84, 0.1);
+            --secondary: #1ed760;
+            --gradient-bg: linear-gradient(135deg, #121212 0%, #181818 100%);
+            --card-bg: rgba(30, 30, 30, 0.7);
+            --card-border: rgba(40, 40, 40, 0.7);
+            --card-hover-bg: rgba(40, 40, 40, 0.8);
             --text-primary: #ffffff;
             --text-secondary: rgba(255, 255, 255, 0.7);
             --text-tertiary: rgba(255, 255, 255, 0.5);
-            --nav-bg: rgba(15, 15, 30, 0.8);
+            --nav-bg: rgba(0, 0, 0, 0.8);
             
-            /* Profile types colors */
-            --profile-especialista: #ff5287;
-            --profile-explorador: #4ade80;
-            --profile-mainstream: #60a5fa;
-            --profile-variado: #facc15;
+            /* Profile types colors - Spotify inspired */
+            --profile-especialista: #1DB954;
+            --profile-explorador: #1ed760;
+            --profile-mainstream: #2E77D0;
+            --profile-variado: #F59B23;
             
             /* Shadows */
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
-            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.2);
-            --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.25);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.5);
             
             /* Animations */
             --transition-fast: 0.2s ease;
@@ -124,7 +124,7 @@
         .navbar-logo-icon {
             font-size: 1.5rem;
             color: var(--primary);
-            filter: drop-shadow(0 0 8px rgba(140, 82, 255, 0.5));
+            filter: drop-shadow(0 0 8px rgba(29, 185, 84, 0.5));
         }
         
         .navbar-logo-text {
@@ -143,11 +143,11 @@
         }
         
         .navbar-btn {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            color: white;
+            background: var(--primary);
+            color: black;
             border: none;
             padding: 10px 16px;
-            border-radius: 8px;
+            border-radius: 500px;
             font-weight: 600;
             font-size: 0.9rem;
             cursor: pointer;
@@ -155,13 +155,14 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 4px 12px rgba(140, 82, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
             text-decoration: none;
         }
         
         .navbar-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(140, 82, 255, 0.4);
+            transform: scale(1.05);
+            background: var(--primary-hover);
+            box-shadow: 0 6px 16px rgba(29, 185, 84, 0.4);
         }
         
         /* Header */
@@ -178,7 +179,7 @@
             left: -20%;
             width: 140%;
             height: 200%;
-            background: radial-gradient(circle at center, rgba(140, 82, 255, 0.15) 0%, rgba(140, 82, 255, 0) 70%);
+            background: radial-gradient(circle at center, rgba(29, 185, 84, 0.15) 0%, rgba(29, 185, 84, 0) 70%);
             z-index: -1;
             animation: pulse 15s infinite alternate;
         }
@@ -193,7 +194,7 @@
             align-items: center;
             justify-content: center;
             font-size: 3rem;
-            color: white;
+            color: black;
             box-shadow: var(--shadow-md);
             animation: fadeInDown 1s var(--transition-normal);
             position: relative;
@@ -227,7 +228,7 @@
         .profile-type {
             display: inline-block;
             padding: 6px 12px;
-            border-radius: 20px;
+            border-radius: 500px;
             font-size: 0.9rem;
             font-weight: 600;
             margin-bottom: 16px;
@@ -254,22 +255,22 @@
         }
         
         .profile-type-especialista {
-            background-color: rgba(255, 82, 135, 0.2);
+            background-color: rgba(29, 185, 84, 0.2);
             color: var(--profile-especialista);
         }
         
         .profile-type-explorador {
-            background-color: rgba(74, 222, 128, 0.2);
+            background-color: rgba(30, 215, 96, 0.2);
             color: var(--profile-explorador);
         }
         
         .profile-type-mainstream {
-            background-color: rgba(96, 165, 250, 0.2);
+            background-color: rgba(46, 119, 208, 0.2);
             color: var(--profile-mainstream);
         }
         
         .profile-type-variado {
-            background-color: rgba(250, 204, 21, 0.2);
+            background-color: rgba(245, 155, 35, 0.2);
             color: var(--profile-variado);
         }
         
@@ -288,7 +289,7 @@
         /* Cards */
         .card {
             background: var(--card-bg);
-            border-radius: 24px;
+            border-radius: 8px;
             border: 1px solid var(--card-border);
             padding: 40px;
             margin-bottom: 48px;
@@ -308,7 +309,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at top right, rgba(140, 82, 255, 0.1), transparent 70%);
+            background: radial-gradient(circle at top right, rgba(29, 185, 84, 0.1), transparent 70%);
             z-index: -1;
         }
         
@@ -344,8 +345,8 @@
         }
         
         .genre-item {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
+            background: rgba(40, 40, 40, 0.7);
+            border-radius: 8px;
             padding: 16px;
             margin-bottom: 16px;
             transition: all var(--transition-normal);
@@ -409,14 +410,14 @@
         .genre-percentage {
             font-size: 0.9rem;
             color: var(--text-secondary);
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(40, 40, 40, 0.7);
             padding: 4px 8px;
-            border-radius: 12px;
+            border-radius: 500px;
         }
         
         .genre-bar-container {
             height: 6px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(40, 40, 40, 0.7);
             border-radius: 3px;
             overflow: hidden;
             position: relative;
@@ -424,7 +425,7 @@
         
         .genre-bar {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            background: var(--primary);
             border-radius: 3px;
             position: absolute;
             top: 0;
@@ -432,214 +433,116 @@
             transition: width 1.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
         
-        /* Profile Stats */
-        .profile-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 24px;
-            margin-top: 32px;
+        /* Additional Data */
+        .data-list {
+            margin-top: 24px;
         }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 24px;
-            text-align: center;
-            border: 1px solid var(--card-border);
+        
+        .data-item {
+            background: rgba(40, 40, 40, 0.7);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
             transition: all var(--transition-normal);
-            animation: fadeInUp 0.8s var(--transition-normal);
+            border: 1px solid var(--card-border);
+            animation: fadeInUp 0.6s var(--transition-normal);
             animation-fill-mode: both;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
         
-        .stat-card::before {
+        .data-item::after {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at center, rgba(140, 82, 255, 0.1), transparent 70%);
-            z-index: -1;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
             opacity: 0;
             transition: opacity var(--transition-normal);
         }
         
-        .stat-card:nth-child(2) {
+        .data-item:nth-child(2) {
             animation-delay: 0.1s;
         }
         
-        .stat-card:nth-child(3) {
+        .data-item:nth-child(3) {
             animation-delay: 0.2s;
         }
         
-        .stat-card:nth-child(4) {
-            animation-delay: 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-8px);
+        .data-item:hover {
             background: var(--card-hover-bg);
-            box-shadow: var(--shadow-md);
+            transform: translateX(8px);
+            padding-left: 20px;
         }
         
-        .stat-card:hover::before {
+        .data-item:hover::after {
             opacity: 1;
         }
-
-        .stat-icon {
-            width: 48px;
-            height: 48px;
+        
+        .data-icon {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: var(--primary-light);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 16px;
-            position: relative;
-            z-index: 1;
+            flex-shrink: 0;
         }
         
-        .stat-icon::after {
-            content: '';
-            position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            bottom: -4px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            z-index: -1;
-            opacity: 0;
-            transition: opacity var(--transition-normal);
-        }
-        
-        .stat-card:hover .stat-icon::after {
-            opacity: 0.3;
-        }
-
-        .stat-icon svg {
-            width: 24px;
-            height: 24px;
+        .data-icon svg {
+            width: 20px;
+            height: 20px;
             color: var(--primary);
         }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            display: inline-block;
-            position: relative;
+        
+        .data-content {
+            flex: 1;
         }
         
-        .stat-card:hover .stat-value {
-            animation: pulse 2s infinite alternate;
+        .data-label {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 4px;
         }
-
-        .stat-label {
+        
+        .data-value {
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
         
-        /* Recommendations */
-        .recommendation-list {
-            list-style: none;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 24px;
+        .insights {
             margin-top: 24px;
-        }
-        
-        .recommendation-item {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 24px;
-            transition: all var(--transition-normal);
+            padding: 16px;
+            background: rgba(40, 40, 40, 0.5);
+            border-radius: 8px;
             border: 1px solid var(--card-border);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            position: relative;
-            overflow: hidden;
         }
         
-        .recommendation-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            opacity: 0;
-            transition: opacity var(--transition-normal);
-        }
-        
-        .recommendation-item:hover {
-            transform: translateY(-8px);
-            background: var(--card-hover-bg);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .recommendation-item:hover::before {
-            opacity: 1;
-        }
-        
-        .recommendation-name {
-            font-weight: 700;
-            font-size: 1.25rem;
+        .insights-title {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
             color: var(--text-primary);
-        }
-        
-        .recommendation-meta {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
         
-        .recommendation-meta svg {
+        .insights-title svg {
             color: var(--primary);
         }
         
-        .recommendation-popularity {
-            margin-top: 12px;
-            width: 100%;
+        .insights-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
         
-        .popularity-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: var(--text-tertiary);
-            margin-bottom: 6px;
-        }
-        
-        .popularity-bar-container {
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            overflow: hidden;
-            position: relative;
-            width: 100%;
-        }
-        
-        .popularity-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
-            border-radius: 3px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            transition: width 1.5s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-
         /* Listening History */
         .history-list {
             margin-top: 24px;
@@ -650,8 +553,8 @@
             align-items: center;
             gap: 16px;
             padding: 16px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            background: rgba(40, 40, 40, 0.7);
             margin-bottom: 12px;
             transition: all var(--transition-normal);
             animation: fadeInUp 0.6s var(--transition-normal);
@@ -667,7 +570,7 @@
             left: 0;
             width: 3px;
             height: 100%;
-            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            background: var(--primary);
             opacity: 0;
             transition: opacity var(--transition-normal);
         }
@@ -689,7 +592,7 @@
         }
 
         .history-item:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--card-hover-bg);
             transform: translateX(5px);
             padding-left: 20px;
         }
@@ -701,7 +604,7 @@
         .history-cover {
             width: 60px;
             height: 60px;
-            border-radius: 8px;
+            border-radius: 4px;
             object-fit: cover;
             box-shadow: var(--shadow-sm);
             transition: transform var(--transition-normal);
@@ -731,9 +634,9 @@
             color: var(--text-tertiary);
             font-size: 0.8rem;
             white-space: nowrap;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(40, 40, 40, 0.7);
             padding: 4px 8px;
-            border-radius: 12px;
+            border-radius: 500px;
         }
         
         /* Forms */
@@ -763,9 +666,9 @@
         
         input[type="text"] {
             padding: 16px;
-            border-radius: 12px;
+            border-radius: 8px;
             border: 1px solid var(--card-border);
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(40, 40, 40, 0.7);
             color: var(--text-primary);
             font-size: 1rem;
             transition: all var(--transition-normal);
@@ -775,7 +678,7 @@
         input[type="text"]:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(140, 82, 255, 0.25);
+            box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.25);
         }
         
         input[type="text"]::placeholder {
@@ -784,10 +687,10 @@
         
         .btn {
             background: var(--primary);
-            color: white;
+            color: black;
             border: none;
             padding: 16px 24px;
-            border-radius: 12px;
+            border-radius: 500px;
             font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
@@ -796,7 +699,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 4px 12px rgba(140, 82, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
             position: relative;
             overflow: hidden;
         }
@@ -814,8 +717,8 @@
         
         .btn:hover {
             background: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(140, 82, 255, 0.4);
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(29, 185, 84, 0.4);
         }
         
         .btn:hover::before {
@@ -829,7 +732,7 @@
         /* Alert */
         .alert {
             padding: 16px;
-            border-radius: 12px;
+            border-radius: 8px;
             margin-bottom: 24px;
             display: flex;
             align-items: center;
@@ -851,15 +754,15 @@
         }
         
         .alert-info {
-            background: rgba(96, 165, 250, 0.1);
-            border: 1px solid rgba(96, 165, 250, 0.3);
-            color: #60a5fa;
+            background: rgba(46, 119, 208, 0.1);
+            border: 1px solid rgba(46, 119, 208, 0.3);
+            color: #2E77D0;
         }
         
         .alert-warning {
-            background: rgba(250, 204, 21, 0.1);
-            border: 1px solid rgba(250, 204, 21, 0.3);
-            color: #facc15;
+            background: rgba(245, 155, 35, 0.1);
+            border: 1px solid rgba(245, 155, 35, 0.3);
+            color: #F59B23;
         }
         
         .alert-error {
@@ -875,7 +778,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(15, 15, 30, 0.8);
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: var(--blur-effect);
             -webkit-backdrop-filter: var(--blur-effect);
             z-index: 2000;
@@ -896,7 +799,7 @@
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            border: 3px solid rgba(140, 82, 255, 0.1);
+            border: 3px solid rgba(29, 185, 84, 0.1);
             border-top-color: var(--primary);
             animation: spin 1s linear infinite;
         }
@@ -909,11 +812,11 @@
         footer {
             text-align: center;
             padding: 40px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(40, 40, 40, 0.7);
             color: var(--text-tertiary);
             font-size: 0.9rem;
             margin-top: 40px;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.3);
             position: relative;
             overflow: hidden;
         }
@@ -924,11 +827,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at bottom center, rgba(140, 82, 255, 0.05), transparent 70%);
-            z-index: -1;
-        }
-        
-        .footer82,255,0.05), transparent 70%);
+            background: radial-gradient(circle at bottom center, rgba(29, 185, 84, 0.05), transparent 70%);
             z-index: -1;
         }
         
@@ -998,10 +897,6 @@
             .recommendation-list {
                 grid-template-columns: 1fr;
             }
-            
-            .profile-stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
         }
         
         @media (max-width: 480px) {
@@ -1025,15 +920,11 @@
             
             .card {
                 padding: 24px;
-                border-radius: 20px;
+                border-radius: 8px;
             }
             
             .btn {
                 padding: 14px 20px;
-            }
-            
-            .profile-stats {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -1127,74 +1018,25 @@
                             <div class="genre-name">{{ genero.genero }}</div>
                             <div class="genre-percentage">{{ genero.porcentaje }}%</div>
                         </div>
-                        <div class="genre-bar-container" role="progressbar" aria-valuenow="{{ genero.porcentaje }}" aria-valuemin="0" aria-valuemax="100">
+                        <div class="genre-bar-container">
                             <div class="genre-bar" style="width: {{ genero.porcentaje }}%"></div>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
-            </section>
-
-            <!-- Estadísticas del Perfil -->
-            <section class="card" aria-labelledby="stats-title">
-                <div class="card-header">
-                    <h2 class="card-title" id="stats-title">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-title-icon" aria-hidden="true">
-                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                            <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                        </svg>
-                        Estadísticas de tu Perfil
-                    </h2>
-                    <p class="card-description">Un vistazo a tus hábitos de escucha y preferencias musicales</p>
-                </div>
                 
-                <div class="profile-stats">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M9 18V5l12-2v13"></path>
-                                <circle cx="6" cy="18" r="3"></circle>
-                                <circle cx="18" cy="16" r="3"></circle>
-                            </svg>
-                        </div>
-                        <div class="stat-value">{{ perfil_info.generos_principales|length }}</div>
-                        <div class="stat-label">Géneros Principales</div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="9" cy="7" r="4"></circle>
-                                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                            </svg>
-                        </div>
-                        <div class="stat-value">{{ perfil_info.usuarios_similares|default(0) }}</div>
-                        <div class="stat-label">Usuarios Similares</div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                            </svg>
-                        </div>
-                        <div class="stat-value">{{ perfil_info.artistas_favoritos|default(0) }}</div>
-                        <div class="stat-label">Artistas Favoritos</div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
-                        </div>
-                        <div class="stat-value">{{ perfil_info.horas_escucha|default(0) }}</div>
-                        <div class="stat-label">Horas de Escucha</div>
-                    </div>
+                <div class="insights">
+                    <h3 class="insights-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 16v-4"></path>
+                            <path d="M12 8h.01"></path>
+                        </svg>
+                        ¿Qué significa esto?
+                    </h3>
+                    <p class="insights-text">
+                        Los géneros mostrados representan tus preferencias musicales más fuertes. Un porcentaje alto en un género específico indica que dedicas una parte significativa de tu tiempo de escucha a ese estilo musical. Esta información es útil para entender tus gustos y para que MusicGraph pueda ofrecerte recomendaciones más precisas.
+                    </p>
                 </div>
             </section>
 
@@ -1223,6 +1065,98 @@
                         <div class="history-time">{{ item.time }}</div>
                     </div>
                     {% endfor %}
+                </div>
+                
+                <div class="insights">
+                    <h3 class="insights-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 16v-4"></path>
+                            <path d="M12 8h.01"></path>
+                        </svg>
+                        ¿Cómo se usa esta información?
+                    </h3>
+                    <p class="insights-text">
+                        Tu historial reciente nos ayuda a entender tus preferencias actuales. Estas canciones influyen en las recomendaciones que recibes, especialmente para descubrir música nueva que se alinee con tus gustos del momento. Cuanto más escuchas, más precisas serán tus recomendaciones.
+                    </p>
+                </div>
+            </section>
+            {% endif %}
+            
+            <!-- Datos Adicionales -->
+            {% if perfil_info.extra %}
+            <section class="card" aria-labelledby="extra-data-title">
+                <div class="card-header">
+                    <h2 class="card-title" id="extra-data-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-title-icon" aria-hidden="true">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                        </svg>
+                        Datos Adicionales
+                    </h2>
+                    <p class="card-description">Información complementaria sobre tus hábitos musicales</p>
+                </div>
+                
+                <div class="data-list">
+                    <div class="data-item">
+                        <div class="data-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <div class="data-content">
+                            <div class="data-label">Artista más escuchado</div>
+                            <div class="data-value">{{ perfil_info.extra.artista_top }}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="data-item">
+                        <div class="data-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m12 8-9.04 9.06a2.82 2.82 0 1 0 3.98 3.98L16 12"></path>
+                                <circle cx="17" cy="7" r="5"></circle>
+                            </svg>
+                        </div>
+                        <div class="data-content">
+                            <div class="data-label">Popularidad media</div>
+                            <div class="data-value">{{ perfil_info.extra.popularidad_media }}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="data-item">
+                        <div class="data-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2 9a7 7 0 1 0 14 0a7 7 0 1 0-14 0"></path>
+                                <path d="M16 11a7 7 0 1 0 14 0a7 7 0 1 0-14 0"></path>
+                            </svg>
+                        </div>
+                        <div class="data-content">
+                            <div class="data-label">Total de géneros distintos</div>
+                            <div class="data-value">{{ perfil_info.extra.generos_distintos }}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="insights">
+                    <h3 class="insights-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 16v-4"></path>
+                            <path d="M12 8h.01"></path>
+                        </svg>
+                        Interpretación de tus datos
+                    </h3>
+                    <p class="insights-text">
+                        {% if perfil_info.extra.generos_distintos > 10 %}
+                        Con {{ perfil_info.extra.generos_distintos }} géneros distintos en tu historial, muestras una gran diversidad musical. Tu artista más escuchado es {{ perfil_info.extra.artista_top }}, lo que indica una preferencia consistente. Tu popularidad media de {{ perfil_info.extra.popularidad_media }} sugiere que {% if perfil_info.extra.popularidad_media > 70 %}te inclinas hacia artistas más conocidos y populares{% elif perfil_info.extra.popularidad_media > 40 %}balanceas entre artistas populares y menos conocidos{% else %}tiendes a descubrir artistas menos mainstream y más de nicho{% endif %}.
+                        {% else %}
+                        Con {{ perfil_info.extra.generos_distintos }} géneros en tu historial, muestras un enfoque más especializado en tus gustos musicales. Tu artista más escuchado es {{ perfil_info.extra.artista_top }}, lo que refleja una fuerte preferencia. Tu popularidad media de {{ perfil_info.extra.popularidad_media }} indica que {% if perfil_info.extra.popularidad_media > 70 %}prefieres artistas reconocidos y populares{% elif perfil_info.extra.popularidad_media > 40 %}escuchas una mezcla equilibrada de artistas conocidos y emergentes{% else %}te atraen artistas menos comerciales y más independientes{% endif %}.
+                        {% endif %}
+                    </p>
                 </div>
             </section>
             {% endif %}
@@ -1263,23 +1197,21 @@
                         </svg>
                     </button>
                 </form>
+                
+                <div class="insights">
+                    <h3 class="insights-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 16v-4"></path>
+                            <path d="M12 8h.01"></path>
+                        </svg>
+                        ¿Qué obtendrás?
+                    </h3>
+                    <p class="insights-text">
+                        Al analizar tu perfil, MusicGraph examinará tu historial de escucha para identificar tus géneros favoritos, artistas más escuchados y patrones musicales. Con esta información, podremos clasificar tu perfil musical y ofrecerte recomendaciones personalizadas basadas en tus gustos reales y en las preferencias de usuarios con perfiles similares al tuyo.
+                    </p>
+                </div>
             </section>
-            {% endif %}
-        
-            {% if perfil_info.extra %}
-                <section class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            🔍 Datos adicionales
-                        </h2>
-                        <p class="card-description">Más información sobre tus hábitos musicales</p>
-                    </div>
-                    <ul>
-                        <li><strong>Artista más escuchado:</strong> {{ perfil_info.extra.artista_top }}</li>
-                        <li><strong>Popularidad media:</strong> {{ perfil_info.extra.popularidad_media }}</li>
-                        <li><strong>Total de géneros distintos:</strong> {{ perfil_info.extra.generos_distintos }}</li>
-                    </ul>
-                </section>
             {% endif %}
         </main>
     </div>
@@ -1297,15 +1229,21 @@
     <script>
         // Animate genre bars on page load
         document.addEventListener('DOMContentLoaded', function() {
-            const bars = document.querySelectorAll('.genre-bar');
-            bars.forEach(bar => {
-                const parentContainer = bar.closest('.genre-bar-container');
-                const percentage = parentContainer.getAttribute('aria-valuenow');
-                bar.style.width = '0';
-                setTimeout(() => {
-                    bar.style.width = percentage + '%';
-                }, 300);
-            });
+            // Fix for genre bars animation con reflow forzado
+            setTimeout(function() {
+                const bars = document.querySelectorAll('.genre-bar');
+                bars.forEach((bar, index) => {
+                    const width = bar.getAttribute('data-width');
+                    if (width) {
+                        bar.style.width = '0%'; // Reset inicial
+                        bar.offsetWidth;        // ⬅️ Forzar reflow
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, index * 100);        // Animación escalonada
+                    }
+                });
+            }, 300);
+
             
             // AJAX form submission
             const profileForm = document.getElementById('profileForm');
@@ -1358,7 +1296,7 @@
         window.addEventListener('scroll', function() {
             const navbar = document.querySelector('.navbar');
             if (window.scrollY > 50) {
-                navbar.style.background = 'rgba(15, 15, 30, 0.95)';
+                navbar.style.background = 'rgba(0, 0, 0, 0.95)';
                 navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
             } else {
                 navbar.style.background = 'var(--nav-bg)';
@@ -1373,16 +1311,6 @@
                 const scrollPosition = window.scrollY;
                 headerBg.style.transform = `translateY(${scrollPosition * 0.3}px)`;
             }
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const bars = document.querySelectorAll('.genre-bar');
-            bars.forEach(bar => {
-                const container = bar.parentElement;
-                const percentage = container.getAttribute('aria-valuenow');
-                bar.style.width = percentage + '%';
-            });
         });
     </script>
 </body>
